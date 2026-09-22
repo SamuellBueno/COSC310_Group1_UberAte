@@ -18,8 +18,13 @@ cd COSC310_Group1_UberAte
 Windows (PowerShell):
 
 py -m venv .venv
+
 or
+
 python -m venv .venv
+
+then
+
 .venv\Scripts\Activate.ps1
 
 macOS / Linux:
