@@ -11,6 +11,7 @@ following a layered architecture (Route → Service → Repository → JSON).
 ### 1. Clone the repository
 
 git clone https://github.com/SamuellBueno/COSC310_Group1_UberAte.git
+
 cd COSC310_Group1_UberAte
 
 
