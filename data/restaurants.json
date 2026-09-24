@@ -1,0 +1,42 @@
+[
+  {
+    "id": "A1",
+    "name": "Kelowna Sushi",
+    "cuisine": "Sushi",
+    "rating": 5.0,
+    "address": "123 Water St, Kelowna",
+    "is_open": true
+  },
+  {
+    "id": "A2",
+    "name": "Tiger Donair",
+    "cuisine": "Donair",
+    "rating": 4.4,
+    "address": "3287 University way, Kelowna",
+    "is_open": false
+  },
+  {
+    "id": "A3",
+    "name": "Very Big Burger",
+    "cuisine": "Burger",
+    "rating": 3.3,
+    "address": "232 Ellis Street, Kelowna",
+    "is_open": true
+  },
+  {
+    "id": "A4",
+    "name": "Pizza Lair",
+    "cuisine": "Italian",
+    "rating": 2.2,
+    "address": "333 Yates rd, kelowna",
+    "is_open": true
+  },
+  {
+    "id": "A5",
+    "name": "Taco Tim",
+    "cuisine": "Mexican",
+    "rating": 1.1,
+    "address": "1234 Pandosy Street, Kelowna",
+    "is_open": true
+  }
+]
