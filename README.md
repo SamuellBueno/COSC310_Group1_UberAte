@@ -47,7 +47,7 @@ uvicorn app.main:app --reload
 | Method | Path | Description |
 |---|---|---|
 | GET | `/health`     | Health check, returns `{"status": "ok"}` |
-| GET | /restaurants  | Returns the list of restaurants          |
+| GET | `/restaurants`  | Returns the list of restaurants          |
 
 
 ## API documentation
