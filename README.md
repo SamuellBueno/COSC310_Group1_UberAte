@@ -69,4 +69,34 @@ copies the data into a temporary folder (using pytest's `tmp_path`) and
 uses `monkeypatch` to point the app at that copy instead of the real one.
 
 ## Repository structure
-_To be added: brief tree of the repo layout, once all team members are done
+|- app/
+|   |- api/
+|   |   |- routes/
+|   |   |   |- health.py
+|   |   |   |- restaurants.py
+|   |- core/
+|   |   |- config.py
+|   |- repositories/
+|   |   |- restaurant_repository.py
+|   |- schemas/
+|   |   |- restaurant.py
+|   |- services/
+|   |   |- restaurant_service.py
+|   |- main.py
+|- data/
+|   |- restaurants.json
+|- docs/
+|   |- PROVENANCE.md
+|- scrum/
+|   |- team-agreement.md
+|- tests/
+|   |- test_config.py
+|   |- test_health.py
+|   |- test_restaurant_repository.py
+|   |- test_restaurant_routes.py
+|   |- test_restaurant_schema.py
+|   |- test_restaurant_service.py
+|- .gitignore
+|- pytest.ini
+|- README.md
+|- requirements.txt
