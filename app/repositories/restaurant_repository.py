@@ -1,7 +1,7 @@
 import json
-from pathlib import Path
+from app.core.config import get_data_dir
 
-RESTAURANT_PATH = Path("data/restaurants.json")
+RESTAURANT_PATH = get_data_dir() / "restaurants.json"
 
 
 def load_restaurants() -> list[dict]:
