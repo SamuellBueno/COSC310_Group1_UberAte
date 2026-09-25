@@ -46,7 +46,9 @@ uvicorn app.main:app --reload
 ## API endpoints
 | Method | Path | Description |
 |---|---|---|
-| GET | `/health` | Health check, returns `{"status": "ok"}` |
+| GET | `/health`     | Health check, returns `{"status": "ok"}` |
+| GET | `/restaurants`  | Returns the list of restaurants          |
+
 
 ## API documentation
 Once the app is running, open **`/docs`** in your browser
@@ -69,4 +71,4 @@ copies the data into a temporary folder (using pytest's `tmp_path`) and
 uses `monkeypatch` to point the app at that copy instead of the real one.
 
 ## Repository structure
-_To be added: brief tree of the repo layout, once all team members are done
+_To be added: brief tree of the repo layout, once all team members are done_
