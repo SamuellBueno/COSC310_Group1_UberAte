@@ -49,15 +49,24 @@ uvicorn app.main:app --reload
 | GET | `/health` | Health check, returns `{"status": "ok"}` |
 
 ## API documentation
-_To be added: link to `/docs`, once the restaurant endpoint is merged._
+Once the app is running, open **`/docs`** in your browser
+(http://127.0.0.1:8000/docs) to see and try out the API.
 
 ## Data
-_To be added: location of the data file(s) and how the data directory is
-configured, once the repository layer is merged._
+The restaurant data lives in `data/restaurants.json`.
+
+You can point the app at a different data folder by setting the
+`COSC310_DATA_DIR` environment variable. If you don't set it, the app
+just uses the repo's own `data/` folder by default.
 
 ## Run the tests
-_To be added: the pytest command and what's covered, once the test suite
-is in place._
+With the virtual environment active, from the project root, run:
+
+pytest -q
+
+Tests never touch the real data file. Before each test runs, a fixture
+copies the data into a temporary folder (using pytest's `tmp_path`) and
+uses `monkeypatch` to point the app at that copy instead of the real one.
 
 ## Repository structure
-_To be added: brief tree of the repo layout, once all layers are merged._
+_To be added: brief tree of the repo layout, once all team members are done
