@@ -14,7 +14,7 @@ class MenuItem(BaseModel):
 class MenuItemCreate(BaseModel):
     """What a client sends to add a menu item.
     No id: the server assigns it.
-    No restaurant_id: it comes from the URL (POST /restaurants/{restaurant_id}/menu-items),"""
+    No restaurant_id: it comes from the URL"""
     model_config = ConfigDict(extra="forbid")
 
     name: str = Field(min_length=1)
