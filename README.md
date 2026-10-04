@@ -48,6 +48,7 @@ uvicorn app.main:app --reload
 |---|---|---|
 | GET | `/health`     | Health check, returns `{"status": "ok"}` |
 | GET | `/restaurants`  | Returns the list of restaurants          |
+| POST | `/restaurants/{restaurant_id}/menu-items` |Adds a menu item to a restaurant|
 
 
 ## API documentation
@@ -63,6 +64,10 @@ just uses the repo's own `data/` folder by default.
 
 ## Run the tests
 With the virtual environment active, from the project root, run:
+
+pytest -v
+
+or 
 
 pytest -q
 
