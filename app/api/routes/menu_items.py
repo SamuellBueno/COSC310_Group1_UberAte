@@ -11,7 +11,7 @@ router = APIRouter(tags=["menu"])
     response_model=MenuItem,
     status_code=201,
     summary="Add a menu item",
-    description="Adds a menu item to a restaurant's menu. The server assigns the id for the item.",
+    description="Adds a menu it to a restaurant's menu and the id comes from the server",
     responses={
         400: {"description": "This menu already has a dish with that name"},
         404: {"description": "Restaurant not found"},
