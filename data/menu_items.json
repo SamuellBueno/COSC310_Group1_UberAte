@@ -1,0 +1,92 @@
+[
+  {
+    "id": "M1",
+    "restaurant_id": "A1",
+    "name": "Dragon Roll",
+    "description": "Eel and avocado roll",
+    "category": "Rolls",
+    "price": 14.0,
+    "available": true
+  },
+  {
+    "id": "M2",
+    "restaurant_id": "A1",
+    "name": "California Roll",
+    "description": "Crab, avocado and cucumber",
+    "category": "Rolls",
+    "price": 9.5,
+    "available": true
+  },
+  {
+    "id": "M3",
+    "restaurant_id": "A2",
+    "name": "Classic Donair",
+    "description": "Beef donair with sweet sauce",
+    "category": "Donairs",
+    "price": 12.5,
+    "available": true
+  },
+  {
+    "id": "M4",
+    "restaurant_id": "A2",
+    "name": "Donair Poutine",
+    "description": "Fries, cheese curds and donair meat",
+    "category": "Sides",
+    "price": 11.0,
+    "available": false
+  },
+  {
+    "id": "M5",
+    "restaurant_id": "A3",
+    "name": "Double Cheeseburger",
+    "description": "Two patties with cheddar",
+    "category": "Burgers",
+    "price": 16.0,
+    "available": true
+  },
+  {
+    "id": "M6",
+    "restaurant_id": "A3",
+    "name": "Onion Rings",
+    "description": "",
+    "category": "Sides",
+    "price": 6.0,
+    "available": true
+  },
+  {
+    "id": "M7",
+    "restaurant_id": "A4",
+    "name": "Margherita Pizza",
+    "description": "Tomato, mozzarella and basil",
+    "category": "Pizza",
+    "price": 15.0,
+    "available": true
+  },
+  {
+    "id": "M8",
+    "restaurant_id": "A4",
+    "name": "Garlic Bread",
+    "description": "",
+    "category": "Sides",
+    "price": 5.5,
+    "available": true
+  },
+  {
+    "id": "M9",
+    "restaurant_id": "A5",
+    "name": "Beef Tacos",
+    "description": "Three tacos with salsa",
+    "category": "Tacos",
+    "price": 10.0,
+    "available": true
+  },
+  {
+    "id": "M10",
+    "restaurant_id": "A5",
+    "name": "Churros",
+    "description": "With chocolate sauce",
+    "category": "Desserts",
+    "price": 6.5,
+    "available": false
+  }
+]
