@@ -28,9 +28,29 @@ def add(restaurant_id: str, payload: MenuItemCreate) -> MenuItem:
     return new_item
 
 def list_by_restaurant(restaurant_id: str) -> list[MenuItem]:
-    """Return only the menu items that belong to one restaurant."""
+    """Return only the menu items that belong to one restaurant"""
     items = []
     for item in list_all():
         if item.restaurant_id == restaurant_id:
             items.append(item)
     return items
+
+def get_by_id(item_id: str) -> MenuItem | None:
+    """Return the menu item with this id or none"""
+    for item in list_all():
+        if item.id == item_id:
+            return item
+    return None
+
+def update(item_id: str, changes: dict) -> MenuItem | None:
+    """Apply the changes to one menu item and return it"""
+    records = json_storage.read_list(FILENAME)
+    for index, record in enumerate(records):
+        if record["id"] == item_id:
+            updated_record = dict(record)
+            updated_record.update(changes)
+            updated_item = MenuItem.model_validate(updated_record)
+            records[index] = updated_item.model_dump()
+            json_storage.write_list(FILENAME, records)
+            return updated_item
+    return None
