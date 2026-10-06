@@ -60,3 +60,20 @@ def test_empty_update_returns_400(client):
     # Criterion: sending no changes gives should also not work
     response = client.patch("/menu-items/M1", json={})
     assert response.status_code == 400
+
+def test_delete_returns_204(client):
+    # deleting works and sends nothing back
+    response = client.delete("/menu-items/M1")
+    assert response.status_code == 204
+
+
+def test_deleted_dish_is_gone_from_the_file(client):
+    # get_by_id reads the file again, so None means it's really gone
+    client.delete("/menu-items/M1")
+    assert menu_item_repository.get_by_id("M1") is None
+
+
+def test_delete_unknown_dish_returns_404(client):
+    # M999 isn't in the test data
+    response = client.delete("/menu-items/M999")
+    assert response.status_code == 404

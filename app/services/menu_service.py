@@ -29,3 +29,6 @@ def update_menu_item(item_id: str, payload: MenuItemUpdate) -> MenuItem | None:
                 raise ValueError(f"This menu already has a dish named '{changes['name']}'")
 
     return menu_item_repository.update(item_id, changes)
+
+def delete_menu_item(item_id: str) -> bool:
+    return menu_item_repository.delete(item_id)

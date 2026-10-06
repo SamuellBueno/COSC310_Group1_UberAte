@@ -33,9 +33,9 @@ def add_menu_item(restaurant_id: str, payload: MenuItemCreate):
     description="Changes only the fields that are sent the empty ones are not accounted for "
                 "A dish can't be moved to another restaurant.",
     responses={
-        200: {"description": "Menu item updated"},
+        200: {"description": "Item updated"},
         400: {"description": "Nothing to update or this menu already has an item with that name"},
-        404: {"description": "Menu item not found"},
+        404: {"description": "Item not found"},
     },
 )
 def update_menu_item(item_id: str, payload: MenuItemUpdate):
@@ -46,3 +46,13 @@ def update_menu_item(item_id: str, payload: MenuItemUpdate):
     if item is None:
         raise HTTPException(status_code=404, detail="Menu item not found")
     return item
+
+@router.delete(
+    "/menu-items/{item_id}",
+    status_code=204,
+    summary="Delete a menu item",
+    responses={404: {"description": "Item not found"}},
+)
+def delete_menu_item(item_id: str):
+    if not menu_service.delete_menu_item(item_id):
+        raise HTTPException(status_code=404, detail="Menu item not found")
