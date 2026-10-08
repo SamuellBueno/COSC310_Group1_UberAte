@@ -10,9 +10,9 @@ def test_list_restaurants_correct_types():
     restaurants = list_restaurants()
 
     for r in restaurants:
-        assert isinstance(r['id'], str)
-        assert isinstance(r['name'], str)
-        assert isinstance(r['cuisine'], str)
-        assert isinstance(r['rating'], float)
-        assert isinstance(r['address'], str)
-        assert isinstance(r['is_open'], bool)
+        assert isinstance(r.id, str)
+        assert isinstance(r.name, str)
+        assert isinstance(r.cuisine, str)
+        assert isinstance(r.rating, float)
+        assert isinstance(r.address, str)
+        assert isinstance(r.is_open, bool)
