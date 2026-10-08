@@ -13,6 +13,6 @@ def load_restaurants() -> list[dict]:
 def get_by_id(restaurant_id: str) -> dict | None:
     """Return the restaurant with this id, or None if there is none."""
     for restaurant in load_restaurants():
-        if restaurant["id"] == restaurant_id:
+        if restaurant.id == restaurant_id:
             return restaurant
     return None
