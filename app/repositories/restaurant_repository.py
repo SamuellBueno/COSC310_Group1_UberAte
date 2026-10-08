@@ -1,13 +1,13 @@
 from app.repositories import json_storage
+from app.schemas.restaurant import Restaurant
 
 FILENAME = "restaurants.json"
 
 
 def load_restaurants() -> list[dict]:
-    """Return every restaurant in the data file as a list of dictionaries."""
-    # Reads through json_storage, which looks up the data folder on every call.
-    # The old version fixed the path once at import, so tests read the real data.
-    return json_storage.read_list(FILENAME)
+    """Return every restaurant in the data file as a list of Restaurant objects"""
+    restaurants = json_storage.read_list(FILENAME)
+    return [Restaurant.model_validate(restaurant) for restaurant in restaurants]
 
 
 def get_by_id(restaurant_id: str) -> dict | None:
