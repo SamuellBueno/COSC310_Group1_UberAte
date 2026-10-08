@@ -4,7 +4,7 @@ from app.schemas.restaurant import Restaurant
 FILENAME = "restaurants.json"
 
 
-def load_restaurants() -> list[dict]:
+def load_restaurants() -> list[Restaurant]:
     """Return every restaurant in the data file as a list of Restaurant objects"""
     restaurants = json_storage.read_list(FILENAME)
     return [Restaurant.model_validate(restaurant) for restaurant in restaurants]
