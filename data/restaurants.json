@@ -38,5 +38,13 @@
     "rating": 1.1,
     "address": "1234 Pandosy Street, Kelowna",
     "is_open": true
+  },
+  {
+    "id": "A6",
+    "name": "Dentons Restaurant",
+    "cuisine": "Burgers",
+    "rating": null,
+    "address": "123 KLO Street",
+    "is_open": true
   }
 ]
