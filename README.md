@@ -46,9 +46,11 @@ uvicorn app.main:app --reload
 ## API endpoints
 | Method | Path | Description |
 |---|---|---|
-| GET | `/health`     | Health check, returns `{"status": "ok"}` |
-| GET | `/restaurants`  | Returns the list of restaurants          |
-| POST | `/restaurants/{restaurant_id}/menu-items` |Adds a menu item to a restaurant|
+| GET | `/health`     | Health check, returns `{"status": "ok"}`|
+| GET | `/restaurants`  | Returns the list of restaurants|
+| POST | `/restaurants/{restaurant_id}/menu-items` | Adds a menu item to a restaurant|
+| PATCH | `/menu-items/{item_id}` | Updates a menu item with only the fields sent|
+| DELETE | `/menu-items/{item_id}` | Deletes a menu item by Id|
 
 
 ## API documentation
