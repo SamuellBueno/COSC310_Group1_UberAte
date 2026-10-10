@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Manage Restaurants</title>
+</head>
+<body>
+  <nav><a href="index.html">Restaurants</a> | <a href="manage.html">Manage</a></nav>
+  <h1>Create a restaurant</h1>
+
+  <form id="create-form">
+    <p><label>Name <input id="name" required></label></p>
+    <p><label>Cuisine <input id="cuisine" required></label></p>
+    <p><label>Address <input id="address" required></label></p>
+    <p><label><input type="checkbox" id="is_open" checked> Open</label></p>
+    <button type="submit">Create</button>
+  </form>
+
+  <p id="result"></p>
+  <p id="error" style="color: red"></p>
+
+  <script src="js/api.js"></script>
+  <script src="js/manage-restaurant.js"></script>
+</body>
+</html>
