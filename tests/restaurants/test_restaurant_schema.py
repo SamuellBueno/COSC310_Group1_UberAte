@@ -38,6 +38,11 @@ def test_restaurant_create_rejects_empty_name():
     with pytest.raises(ValidationError):
         RestaurantCreate(name="", cuisine="burger", address="123street", is_open=True)
 
+def test_create_removes_white_space():
+        restaurant = RestaurantCreate(name="     DonaldMac       ", cuisine="burger",  address="   123 street    ", is_open=True)
+        assert restaurant.name == "DonaldMac"
+        assert restaurant.address == "123 street"
+
 #RestaurantUpdate
 def test_restaurant_update_is_open_only():
         restaurant = RestaurantUpdate(is_open=False)
@@ -46,3 +51,5 @@ def test_restaurant_update_is_open_only():
 def test_invalid_restaurant_update_is_denied():
      with pytest.raises(ValidationError):
          RestaurantUpdate(id="mc", name="DonaldMac", cuisine="burger", rating=5.0, address="123street", is_open=True)
+
+
