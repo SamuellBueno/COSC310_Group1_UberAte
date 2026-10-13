@@ -1,6 +1,6 @@
 import pytest
-from app.repositories.restaurant_repository import load_restaurants, get_by_id
-from app.schemas.restaurant import Restaurant
+from app.repositories.restaurant_repository import load_restaurants, get_by_id, add
+from app.schemas.restaurant import Restaurant, RestaurantCreate
 
 def test_restaurant_load_restaurants_list():
     restaurants = load_restaurants()
@@ -34,3 +34,11 @@ def test_get_by_id_does_not_exist():
     restaurant = get_by_id("id does not exist")
 
     assert restaurant is None
+
+def test_add_is_saved_to_json():
+    restaurant = add(RestaurantCreate(name="DonaldMac", cuisine="burger", address="123street", is_open=True))
+    assert get_by_id(restaurant.id) is not None
+
+def test_add_gives_no_rating():
+    restaurant = add(RestaurantCreate(name="DonaldMac", cuisine="burger", address="123street", is_open=True))
+    assert restaurant.rating == None

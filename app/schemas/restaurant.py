@@ -10,7 +10,7 @@ class Restaurant(BaseModel):
         is_open: bool
 
 class RestaurantCreate(BaseModel):
-        model_config = ConfigDict(extra="forbid") # don't allow undefined fields
+        model_config = ConfigDict(extra="forbid", str_strip_whitespace=True) # don't allow undefined fields and trim whitespace
 
         name: str = Field(min_length=1, max_length=80)
         cuisine: str = Field(min_length=1)
@@ -18,7 +18,7 @@ class RestaurantCreate(BaseModel):
         is_open: bool
 
 class RestaurantUpdate(BaseModel):
-        model_config = ConfigDict(extra="forbid") # don't allow undefined fields
+        model_config = ConfigDict(extra="forbid", str_strip_whitespace=True) # don't allow undefined fields and trim whitespace
 
         name: str | None = Field(default = None, min_length=1, max_length=80)
         cuisine: str | None = Field(default = None, min_length=1)
