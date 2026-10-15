@@ -47,3 +47,17 @@ def test_cuisine_filter():
 
     assert test.id in [r.id for r in restaurants]
     assert all(r.cuisine.lower() == "pizza" for r in restaurants)
+
+def test_name_search():
+    test = create_restaurant (
+        RestaurantCreate(
+            name = "Test Pizza Place",
+            cuisine = "Pizza",
+            address = "123 Address",
+            is_open = True
+        )
+    )
+    restaurants = list_restaurants(search = "PLACE")
+
+    assert test.id in [r.id for r in restaurants]
+    assert all("place" in r.name.lower() for r in restaurants)
