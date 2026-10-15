@@ -1,7 +1,7 @@
 import pytest
 from app.repositories.restaurant_repository import load_restaurants
 from app.schemas.restaurant import RestaurantCreate
-from app.services.restaurant_service import list_restaurants, create_restaurant
+from app.services.restaurant_service import list_restaurants, create_restaurant, get_restaurant
 
 def test_list_restaurants_returns_list():
     restaurants = list_restaurants()
@@ -100,3 +100,15 @@ def test_all_filters():
     restaurants = list_restaurants(cuisine = "Pizza", search = "TEST", open = True)
 
     assert [r.id for r in restaurants] == [test.id]
+
+def test_get_restaurant():
+    test = create_restaurant(
+        RestaurantCreate(
+            name = "Test Pizza Place",
+            cuisine = "Pizza",
+            address = "123 Address",
+            is_open = True
+        )
+    )
+    restaurant = get_restaurant(test.id)
+    assert restaurant == test
