@@ -87,3 +87,16 @@ def test_open():
     assert open_restaurant.id in ids
     assert closed_restaurant.id not in ids
     assert all(r.is_open for r in restaurants)
+
+def test_all_filters():
+    test = create_restaurant (
+            RestaurantCreate(
+                name = "Test Pizza Place",
+                cuisine = "Pizza",
+                address = "123 Address",
+                is_open = True
+            )
+        )
+    restaurants = list_restaurants(cuisine = "Pizza", search = "TEST", open = True)
+
+    assert [r.id for r in restaurants] == [test.id]
