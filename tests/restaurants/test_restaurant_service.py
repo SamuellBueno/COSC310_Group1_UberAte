@@ -61,3 +61,29 @@ def test_name_search():
 
     assert test.id in [r.id for r in restaurants]
     assert all("place" in r.name.lower() for r in restaurants)
+
+def test_open():
+    open_restaurant = create_restaurant (
+            RestaurantCreate(
+                name = "Test Open Pizza Place",
+                cuisine = "Pizza",
+                address = "123 Address",
+                is_open = True
+            )
+        )
+
+    closed_restaurant = create_restaurant (
+                RestaurantCreate(
+                    name = "Test Closed Pizza Place",
+                    cuisine = "Pizza",
+                    address = "321 Address",
+                    is_open = False
+                )
+            )
+
+    restaurants = list_restaurants(open = True)
+    ids = [r.id for r in restaurants]
+
+    assert open_restaurant.id in ids
+    assert closed_restaurant.id not in ids
+    assert all(r.is_open for r in restaurants)
