@@ -112,3 +112,7 @@ def test_get_restaurant():
     )
     restaurant = get_restaurant(test.id)
     assert restaurant == test
+
+def test_get_unknown_id():
+    with pytest.raises(ValueError):
+        get_restaurant("TEST1")
