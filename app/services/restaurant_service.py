@@ -1,9 +1,17 @@
 from app.repositories import restaurant_repository
 from app.schemas.restaurant import Restaurant, RestaurantCreate
 
-def list_restaurants() -> list[Restaurant]:
-    # No business rules needed so just passing through
-    return restaurant_repository.load_restaurants();
+def list_restaurants(cuisine: str | None = None, search: str | None = None, open: bool = False) -> list[Restaurant]:
+    restaurants = restaurant_repository.load_restaurants();
+
+    if cuisine:
+        restaurants = [r for r in restaurants if r.cuisine.lower() == cuisine.lower().strip()]
+    if search:
+        search_text = search.lower().strip()
+        restaurants = [r for r in restaurants if search_text in r.name.lower()]
+    if open:
+        restaurants = [r for r in restaurants if r.is_open]
+    return restaurants
 
 def create_restaurant(restaurant_data: RestaurantCreate) -> Restaurant:
     restaurants = restaurant_repository.load_restaurants()
