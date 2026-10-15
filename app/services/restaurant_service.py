@@ -13,6 +13,14 @@ def list_restaurants(cuisine: str | None = None, search: str | None = None, open
         restaurants = [r for r in restaurants if r.is_open]
     return restaurants
 
+def get_restaurant(restaurant_id: str) -> Restaurant:
+    restaurant = restaurant_repository.get_by_id(restaurant_id)
+
+    if restaurant is None:
+        raise ValueError(f"Restaurant '{restaurant_id}' does not exist.")
+
+    return restaurant
+
 def create_restaurant(restaurant_data: RestaurantCreate) -> Restaurant:
     restaurants = restaurant_repository.load_restaurants()
 
