@@ -33,3 +33,17 @@ def test_duplicate_create_restaurant_is_rejected():
 
     with pytest.raises(ValueError):
         create_restaurant(RestaurantCreate(name="DonaldMac", cuisine="burger", address="123street", is_open=True))
+
+def test_cuisine_filter():
+    test = create_restaurant (
+        RestaurantCreate(
+            name = "Test Pizza Place",
+            cuisine = "Pizza",
+            address = "123 Address",
+            is_open = True
+        )
+    )
+    restaurants = list_restaurants(cuisine = "PIZZA")
+
+    assert test.id in [r.id for r in restaurants]
+    assert all(r.cuisine.lower() == "pizza" for r in restaurants)
