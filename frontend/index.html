@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Restaurants</title>
+</head>
+<body>
+    <nav>
+    <a href="index.html">Restaurants</a> |
+    <a href="manage.html">Manage</a>
+    </nav>
+
+    <h1>Restaurants</h1>
+
+    <form id="filters">
+    <p><label>Search by name <input id="search" type="text"></label></p>
+    <p><label>Cuisine <input id="cuisine" type="text"></label></p>
+    <p>
+        <label>
+        <input id="open-only" type="checkbox"> Only show open restaurants
+        </label>
+    </p>
+    <button type="submit">Search</button>
+    </form>
+
+    <p id="error" style="color: red" role="alert"></p>
+    <ul id="restaurant-list"></ul>
+
+    <script src="js/api.js"></script>
+    <script src="js/restaurants.js"></script>
+</body>
+</html>
