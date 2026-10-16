@@ -48,6 +48,8 @@ uvicorn app.main:app --reload
 |---|---|---|
 | GET | `/health`     | Health check, returns `{"status": "ok"}`|
 | GET | `/restaurants`  | Returns the list of restaurants|
+| POST | `/restaurants` | Creates a restaurant|
+| PATCH | `/restaurants/{restaurant_id}` | Updates a restaurant with only the fields sent|
 | POST | `/restaurants/{restaurant_id}/menu-items` | Adds a menu item to a restaurant|
 | PATCH | `/menu-items/{item_id}` | Updates a menu item with only the fields sent|
 | DELETE | `/menu-items/{item_id}` | Deletes a menu item by Id|
