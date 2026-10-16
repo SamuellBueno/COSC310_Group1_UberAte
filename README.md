@@ -47,7 +47,8 @@ uvicorn app.main:app --reload
 | Method | Path | Description |
 |---|---|---|
 | GET | `/health`     | Health check, returns `{"status": "ok"}`|
-| GET | `/restaurants`  | Returns the list of restaurants|
+| GET | `/restaurants`  | Returns the list of restaurants with optional name search, as well as cuisine and open status filtering|
+| GET | `/restaurants/{restaurant_id}`  | Returns a restaurant by ID|
 | POST | `/restaurants` | Creates a restaurant|
 | PATCH | `/restaurants/{restaurant_id}` | Updates a restaurant with only the fields sent|
 | POST | `/restaurants/{restaurant_id}/menu-items` | Adds a menu item to a restaurant|
