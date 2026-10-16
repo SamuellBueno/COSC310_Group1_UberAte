@@ -42,9 +42,9 @@
   {
     "id": "A6",
     "name": "Dentons Restaurant",
-    "cuisine": "Burgers",
+    "cuisine": "Fries",
     "rating": null,
     "address": "123 KLO Street",
-    "is_open": true
+    "is_open": false
   }
 ]
