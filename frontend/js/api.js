@@ -11,3 +11,17 @@ async function apiPost(path, body) {
   }
   return data;
 }
+
+async function apiPatch(path, body) {
+  const response = await fetch(path, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await response.json().catch(() => null);
+  if (!response.ok) {
+    const detail = typeof data?.detail === "string" ? data.detail : JSON.stringify(data?.detail);
+    throw new Error(`${response.status}: ${detail}`);
+  }
+  return data;
+}
