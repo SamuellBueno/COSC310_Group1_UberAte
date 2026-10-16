@@ -25,3 +25,17 @@ async function apiPatch(path, body) {
   }
   return data;
 }
+
+async function apiGet(path) {
+  const response = await fetch(path);
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    const detail = typeof data?.detail === "string"
+      ? data.detail
+      : JSON.stringify(data?.detail);
+    throw new Error(`${response.status}: ${detail}`);
+  }
+
+  return data;
+}
