@@ -95,7 +95,7 @@ def test_get_restaurants_all_filters(client):
     response = client.get("/restaurants", params={
         "cuisine": "pizza",
         "search": "Test all",
-        "open_only": "true",
+        "open": "true",
     })
 
     assert response.status_code == 200
@@ -104,7 +104,7 @@ def test_get_restaurants_all_filters(client):
     response = client.get("/restaurants", params={
         "cuisine": "sushi",
         "search": "Test All",
-        "open_only": "true",
+        "open": "true",
     })
 
     assert response.status_code == 200
