@@ -20,7 +20,7 @@ class MenuItemCreate(BaseModel):
     name: str = Field(..., min_length=1)
     description: str = ""
     category: str = Field(..., min_length=1)
-    price: float = Field(gt=0)
+    price: float = Field(..., gt=0, lt=1000.0)
     available: bool = True
 
 class MenuItemUpdate(BaseModel):
