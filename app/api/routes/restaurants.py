@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Query, status
-from app.services import restaurant_service
+from app.services import restaurant_service, menu_service
 from app.schemas.restaurant import Restaurant, RestaurantCreate, RestaurantUpdate
 from app.schemas.menu_item import MenuItem
 
