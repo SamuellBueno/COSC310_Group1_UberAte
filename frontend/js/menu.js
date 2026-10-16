@@ -18,6 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
         option.textContent = restaurant.name;
         restaurantSelect.appendChild(option);
       });
+      const restaurantId = new URLSearchParams(window.location.search).get("id");
+
+      if (restaurantId) {
+        restaurantSelect.value = restaurantId;
+        await loadMenu(restaurantId);
+      }
     } catch (err) {
       statusMessage.textContent = "Error loading restaurants. Please try again later.";
       statusMessage.style.display = "block";
