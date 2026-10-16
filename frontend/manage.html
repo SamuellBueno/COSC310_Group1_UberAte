@@ -18,7 +18,27 @@
 
   <p id="result"></p>
   <p id="error" style="color: red"></p>
+  
+  <h1>Edit a restaurant</h1>
+  <p>Fill in only what you want to change.</p>
 
+  <form id="edit-form">
+    <p><label>Restaurant id <input id="edit-id" required></label></p>
+    <p><label>Name <input id="edit-name"></label></p>
+    <p><label>Cuisine <input id="edit-cuisine"></label></p>
+    <p><label>Address <input id="edit-address"></label></p>
+    <p><label>Open
+      <select id="edit-is_open">
+        <option value="">(no change)</option>
+        <option value="true">Open</option>
+        <option value="false">Closed</option>
+      </select>
+    </label></p>
+    <button type="submit">Update</button>
+  </form>
+
+  <p id="edit-result"></p>
+  <p id="edit-error" style="color: red"></p>
   <script src="js/api.js"></script>
   <script src="js/manage-restaurant.js"></script>
 </body>
