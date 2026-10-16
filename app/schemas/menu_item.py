@@ -3,12 +3,12 @@ from pydantic import BaseModel, ConfigDict, Field
 
 class MenuItem(BaseModel):
     """A menu item as it is stored and returned by the API."""
-    id: str
-    restaurant_id: str
-    name: str = Field(min_length=1)
+    id: str = Field(..., min_length =1)
+    restaurant_id: str = Field(..., min_length =1)
+    name: str = Field(..., min_length=1)
     description: str = ""
-    category: str = Field(min_length=1)
-    price: float = Field(gt=0)
+    category: str = Field(..., min_length=1)
+    price: float = Field(..., gt=0, lt=1000.0)
     available: bool = True
 
 class MenuItemCreate(BaseModel):
@@ -17,9 +17,9 @@ class MenuItemCreate(BaseModel):
     No restaurant_id: it comes from the URL"""
     model_config = ConfigDict(extra="forbid")
 
-    name: str = Field(min_length=1)
+    name: str = Field(..., min_length=1)
     description: str = ""
-    category: str = Field(min_length=1)
+    category: str = Field(..., min_length=1)
     price: float = Field(gt=0)
     available: bool = True
 
@@ -32,5 +32,5 @@ class MenuItemUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=1)
     description: str | None = None
     category: str | None = Field(default=None, min_length=1)
-    price: float | None = Field(default=None, gt=0)
+    price: float | None = Field(default=None, gt=0, lt=1000.0)
     available: bool | None = None
