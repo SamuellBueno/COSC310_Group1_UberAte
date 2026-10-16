@@ -2,6 +2,15 @@ from app.repositories import menu_item_repository, restaurant_repository
 from app.schemas.menu_item import MenuItem, MenuItemCreate, MenuItemUpdate
 
 
+def get_menu_items_for_restaurant(restaurant_id: str) -> list[MenuItem] | None:
+    # Check if the restaurant exists first
+    if restaurant_repository.get_by_id(restaurant_id) is None:
+        return None
+
+    # Returns the list of items (or an empty list if the restaurant has none)
+    return menu_item_repository.list_by_restaurant(restaurant_id)
+
+
 def add_menu_item(restaurant_id: str, payload: MenuItemCreate) -> MenuItem | None:
     #Add a dish to a restaurant's menu
     if restaurant_repository.get_by_id(restaurant_id) is None:
