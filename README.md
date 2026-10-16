@@ -43,6 +43,9 @@ pip install -r requirements.txt
 
 uvicorn app.main:app --reload
 
+
+
+
 ## API endpoints
 | Method | Path | Description |
 |---|---|---|
@@ -51,17 +54,25 @@ uvicorn app.main:app --reload
 | GET | `/restaurants/{restaurant_id}`  | Returns a restaurant by ID|
 | POST | `/restaurants` | Creates a restaurant|
 | PATCH | `/restaurants/{restaurant_id}` | Updates a restaurant with only the fields sent|
+| GET | `/restaurants/{restaurant_id}/menu-items` | Returns all menu items for a specific restaurant |
 | POST | `/restaurants/{restaurant_id}/menu-items` | Adds a menu item to a restaurant|
 | PATCH | `/menu-items/{item_id}` | Updates a menu item with only the fields sent|
-| DELETE | `/menu-items/{item_id}` | Deletes a menu item by Id|
-
+| DELETE | `/menu-items/{item_id}` | Deletes a menu item by ID|
 
 ## API documentation
 Once the app is running, open **`/docs`** in your browser
 (http://127.0.0.1:8000/docs) to see and try out the API.
 
+## Frontend
+The application serves static web interfaces under the `/ui` path prefix:
+- **Customer Menu Browsing**: [http://127.0.0.1:8000/ui/menu.html](http://127.0.0.1:8000/ui/menu.html) — Select a restaurant to view its categorized dishes, prices, and availability.
+- **Restaurant Management**: [http://127.0.0.1:8000/ui/manage.html](http://127.0.0.1:8000/ui/manage.html) — Create new restaurants and update existing restaurant details.
+
 ## Data
-The restaurant data lives in `data/restaurants.json`.
+The seed data lives in:
+- `data/restaurants.json`
+- `data/menu_items.json`
+
 
 You can point the app at a different data folder by setting the
 `COSC310_DATA_DIR` environment variable. If you don't set it, the app
@@ -86,31 +97,54 @@ uses `monkeypatch` to point the app at that copy instead of the real one.
 |   |- api/
 |   |   |- routes/
 |   |   |   |- health.py
+|   |   |   |- menu_items.py
 |   |   |   |- restaurants.py
 |   |- core/
 |   |   |- config.py
 |   |- repositories/
+|   |   |- json_storage.py
+|   |   |- menu_item_repository.py
 |   |   |- restaurant_repository.py
 |   |- schemas/
+|   |   |- menu_item.py
 |   |   |- restaurant.py
 |   |- services/
+|   |   |- menu_service.py
 |   |   |- restaurant_service.py
 |   |- main.py
 |- data/
+|   |- menu_items.json
 |   |- restaurants.json
 |- docs/
 |   |- PROVENANCE.md
+|- frontend/
+|   |- js/
+|   |   |- api.js
+|   |   |- manage-restaurant.js
+|   |   |- menu.js
+|   |- manage.html
+|   |- menu.html
 |- scrum/
 |   |- team-agreement.md
 |- tests/
-|   |- test_config.py
-|   |- test_health.py
-|   |- test_restaurant_repository.py
-|   |- test_restaurant_routes.py
-|   |- test_restaurant_schema.py
-|   |- test_restaurant_service.py
+|   |- menu/
+|   |   |- test_menu_add.py
+|   |   |- test_menu_browsing.py
+|   |   |- test_menu_item_repository.py
+|   |   |- test_menu_item_schema.py
+|   |   |- test_menu_update.py
+|   |- restaurants/
+|   |   |- test_restaurant_repository.py
+|   |   |- test_restaurant_routes.py
+|   |   |- test_restaurant_schema.py
+|   |   |- test_restaurant_service.py
+|   |- structure/
+|   |   |- test_config.py
+|   |   |- test_data_integrity.py
+|   |   |- test_health.py
+|   |   |- test_json_storage.py
+|   |- conftest.py
 |- .gitignore
 |- pytest.ini
 |- README.md
 |- requirements.txt
-```
