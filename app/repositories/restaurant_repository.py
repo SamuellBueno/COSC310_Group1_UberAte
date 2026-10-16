@@ -1,5 +1,5 @@
 from app.repositories import json_storage
-from app.schemas.restaurant import Restaurant, RestaurantCreate
+from app.schemas.restaurant import Restaurant, RestaurantCreate, RestaurantUpdate
 
 FILENAME = "restaurants.json"
 
@@ -31,3 +31,21 @@ def add(restaurant_data: RestaurantCreate) -> Restaurant:
     data_json.append(restaurant.model_dump())
     json_storage.write_list(FILENAME, data_json)
     return restaurant
+
+def update(restaurant_id: str, restaurant_data: RestaurantUpdate) -> Restaurant | None:
+    data_json = json_storage.read_list(FILENAME)
+    for index, record in enumerate(data_json):
+        if record["id"] == restaurant_id:
+            restaurant = Restaurant.model_validate(record)
+            if restaurant_data.name is not None:
+                restaurant.name = restaurant_data.name
+            if restaurant_data.cuisine is not None:
+                restaurant.cuisine = restaurant_data.cuisine
+            if restaurant_data.address is not None:
+                restaurant.address = restaurant_data.address
+            if restaurant_data.is_open is not None:
+                restaurant.is_open = restaurant_data.is_open
+            data_json[index] = restaurant.model_dump()
+            json_storage.write_list(FILENAME, data_json)
+            return restaurant
+    return None
