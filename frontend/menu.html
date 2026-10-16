@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UberAte - Menu</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 2rem auto;
+      max-width: 800px;
+      padding: 0 1rem;
+      color: #333;
+    }
+    header {
+      margin-bottom: 2rem;
+    }
+    label {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .category-section {
+      margin-top: 2rem;
+    }
+    .category-title {
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.25rem;
+      color: #111;
+    }
+    .item-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #fafafa;
+    }
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .item-name {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+    .item-price {
+      font-weight: bold;
+      color: #2b6cb0;
+    }
+    .item-desc {
+      margin: 0.5rem 0 0 0;
+      color: #555;
+    }
+    .item-status {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+    .available {
+      color: #2e7d32;
+    }
+    .unavailable {
+      color: #c62828;
+    }
+    .empty-message {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background-color: #f7fafc;
+      border: 1px dashed #cbd5e0;
+      text-align: center;
+      border-radius: 6px;
+      color: #718096;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Browse Restaurant Menus</h1>
+    <div>
+      <label for="restaurant-select">Select a Restaurant:</label>
+      <select id="restaurant-select">
+        <option value="">-- Choose a Restaurant --</option>
+      </select>
+    </div>
+  </header>
+
+  <main id="menu-container">
+    <div id="status-message" class="empty-message">Please select a restaurant to view its menu.</div>
+    <div id="menu-items"></div>
+  </main>
+
+  <script src="/ui/js/api.js"></script>
+  <script src="/ui/js/menu.js"></script>
+</body>
+</html>
