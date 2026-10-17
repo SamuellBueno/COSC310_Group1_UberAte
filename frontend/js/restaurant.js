@@ -22,9 +22,11 @@ async function loadRestaurant() {
         `${restaurant.cuisine} · ${restaurant.address} · ` +
         `Rating: ${restaurant.rating ?? "Not rated yet"} · ` +
         (restaurant.is_open ? "Open" : "Closed");
+    info.className = "detail-info";
 
     menuLink.href =
         `menu.html?id=${encodeURIComponent(restaurantId)}`;
+    menuLink.className = "button";
     menuLink.hidden = false;
     } catch (err) {
     error.textContent = err.message;

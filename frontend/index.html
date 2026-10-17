@@ -2,29 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Restaurants</title>
+    <title>UberAte - Restaurants</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav>
-    <a href="index.html">Restaurants</a> |
+    <a href="index.html">Restaurants</a>
+    <a href="menu.html">Menus</a>
     <a href="manage.html">Manage</a>
     </nav>
 
-    <h1>Restaurants</h1>
+    <header>
+      <p class="eyebrow">Good food, better choices</p>
+      <h1>Find your next favourite place.</h1>
+      <p class="lede">Explore local restaurants and discover something delicious.</p>
+    </header>
 
-    <form id="filters">
-    <p><label>Search by name <input id="search" type="text"></label></p>
-    <p><label>Cuisine <input id="cuisine" type="text"></label></p>
-    <p>
+    <form id="filters" class="filters">
+    <label>Search by name <input id="search" type="text" placeholder="Try sushi, pizza..."></label>
+    <label>Cuisine <input id="cuisine" type="text" placeholder="Any cuisine"></label>
+    <div>
         <label>
         <input id="open-only" type="checkbox"> Only show open restaurants
         </label>
-    </p>
-    <button type="submit">Search</button>
+      <button type="submit">Search restaurants</button>
+    </div>
     </form>
 
-    <p id="error" style="color: red" role="alert"></p>
-    <ul id="restaurant-list"></ul>
+    <p id="error" class="error" role="alert"></p>
+    <ul id="restaurant-list" class="restaurant-list"></ul>
 
     <script src="js/api.js"></script>
     <script src="js/restaurants.js"></script>

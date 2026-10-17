@@ -19,20 +19,30 @@ async function loadRestaurants() {
     const restaurants = await apiGet(`/restaurants?${params}`);
 
     if (restaurants.length === 0) {
-        list.textContent = "No restaurants match.";
+        list.innerHTML = '<li class="empty-message">No restaurants match those filters.</li>';
     }
 
     for (const restaurant of restaurants) {
         const item = document.createElement("li");
+        item.className = "restaurant-card";
         const link = document.createElement("a");
-
-        link.textContent =
-        `${restaurant.name} (${restaurant.cuisine})` +
-        (restaurant.is_open ? " - Open" : " - Closed");
 
         link.href =
         `restaurant.html?id=${encodeURIComponent(restaurant.id)}`;
 
+        const name = document.createElement("span");
+        name.className = "restaurant-name";
+        name.textContent = restaurant.name;
+
+        const meta = document.createElement("span");
+        meta.className = "restaurant-meta";
+        meta.textContent = restaurant.cuisine;
+
+        const status = document.createElement("span");
+        status.className = `status ${restaurant.is_open ? "open" : "closed"}`;
+        status.textContent = restaurant.is_open ? "Open now" : "Currently closed";
+
+        link.append(name, meta, status);
         item.append(link);
         list.append(item);
     }

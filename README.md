@@ -64,9 +64,11 @@ Once the app is running, open **`/docs`** in your browser
 (http://127.0.0.1:8000/docs) to see and try out the API.
 
 ## Frontend
-The application serves static web interfaces under the `/ui` path prefix:
-- **Customer Menu Browsing**: [http://127.0.0.1:8000/ui/menu.html](http://127.0.0.1:8000/ui/menu.html) — Select a restaurant to view its categorized dishes, prices, and availability.
-- **Restaurant and Menu Management**: [http://127.0.0.1:8000/ui/manage.html](http://127.0.0.1:8000/ui/manage.html) — Create and update restaurants, create menu items for a selected restaurant, and edit existing menu items.
+The application serves a cohesive, responsive frontend under the `/ui` path prefix:
+- **Restaurants**: [http://127.0.0.1:8000/ui/index.html](http://127.0.0.1:8000/ui/index.html) — Search and filter restaurants, then view restaurant details.
+- **Restaurant Details**: [http://127.0.0.1:8000/ui/restaurant.html](http://127.0.0.1:8000/ui/restaurant.html) — View a restaurant's information and open its menu.
+- **Menus**: [http://127.0.0.1:8000/ui/menu.html](http://127.0.0.1:8000/ui/menu.html) — Select a restaurant to browse categorized dishes, prices, descriptions, and availability.
+- **Management**: [http://127.0.0.1:8000/ui/manage.html](http://127.0.0.1:8000/ui/manage.html) — Create and update restaurants and menu items.
 
 ## Data
 The seed data lives in:
