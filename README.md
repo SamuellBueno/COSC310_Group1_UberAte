@@ -65,6 +65,8 @@ Once the app is running, open **`/docs`** in your browser
 
 ## Frontend
 The application serves static web interfaces under the `/ui` path prefix:
+- **Restaurant Browsing**: http://127.0.0.1:8000/ui/index.html — View restaurants, search by name, and filter by cuisine or open status.
+- **Restaurant Details**: http://127.0.0.1:8000/ui/restaurant.html?id=A1 — View a selected restaurant’s details and follow a link to its menu. The `id` parameter identifies the restaurant.
 - **Customer Menu Browsing**: [http://127.0.0.1:8000/ui/menu.html](http://127.0.0.1:8000/ui/menu.html) — Select a restaurant to view its categorized dishes, prices, and availability.
 - **Restaurant Management**: [http://127.0.0.1:8000/ui/manage.html](http://127.0.0.1:8000/ui/manage.html) — Create new restaurants and update existing restaurant details.
 
@@ -122,11 +124,18 @@ uses `monkeypatch` to point the app at that copy instead of the real one.
 |   |   |- api.js
 |   |   |- manage-restaurant.js
 |   |   |- menu.js
+|   |   |- restaurant.js
+|   |   |- restaurants.js
+|   |- inde.html
 |   |- manage.html
 |   |- menu.html
+|   |- restaurant.html
 |- scrum/
+|   |- SPRINT-Planning.md
 |   |- team-agreement.md
 |- tests/
+|   |- frontend/
+|   |   |- test_frontend.py
 |   |- menu/
 |   |   |- test_menu_add.py
 |   |   |- test_menu_browsing.py
