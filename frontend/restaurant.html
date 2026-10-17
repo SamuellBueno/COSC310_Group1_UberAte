@@ -3,24 +3,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Details</title>
+    <title>UberAte - Restaurant Details</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav>
-    <a href="index.html">Restaurants</a> |
-    <a href="menu.html">Menus</a> |
+    <a href="index.html">Restaurants</a>
+    <a href="menu.html">Menus</a>
     <a href="manage.html">Manage</a>
     </nav>
 
-    <h1 id="name">Restaurant Details</h1>
-    <p id="info"></p>
-    <p id="error" style="color: red" role="alert"></p>
-
-    <p>
+    <main class="detail-card">
+      <p class="eyebrow">Restaurant details</p>
+      <h1 id="name">Restaurant Details</h1>
+      <p id="info" class="detail-info"></p>
+      <p id="error" class="error" role="alert"></p>
     <a id="menu-link" href="menu.html" hidden>
-        View this restaurant’s menu
+        View this restaurant's menu
     </a>
-    </p>
+    </main>
 
     <script src="js/api.js"></script>
     <script src="js/restaurant.js"></script>
