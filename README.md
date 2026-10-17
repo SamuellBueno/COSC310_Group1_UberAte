@@ -124,11 +124,18 @@ uses `monkeypatch` to point the app at that copy instead of the real one.
 |   |   |- api.js
 |   |   |- manage-restaurant.js
 |   |   |- menu.js
+|   |   |- restaurant.js
+|   |   |- restaurants.js
+|   |- inde.html
 |   |- manage.html
 |   |- menu.html
+|   |- restaurant.html
 |- scrum/
+|   |- SPRINT-Planning.md
 |   |- team-agreement.md
 |- tests/
+|   |- frontend/
+|   |   |- test_frontend.py
 |   |- menu/
 |   |   |- test_menu_add.py
 |   |   |- test_menu_browsing.py
