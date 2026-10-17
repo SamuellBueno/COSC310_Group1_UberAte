@@ -66,7 +66,7 @@ Once the app is running, open **`/docs`** in your browser
 ## Frontend
 The application serves static web interfaces under the `/ui` path prefix:
 - **Customer Menu Browsing**: [http://127.0.0.1:8000/ui/menu.html](http://127.0.0.1:8000/ui/menu.html) — Select a restaurant to view its categorized dishes, prices, and availability.
-- **Restaurant Management**: [http://127.0.0.1:8000/ui/manage.html](http://127.0.0.1:8000/ui/manage.html) — Create new restaurants and update existing restaurant details.
+- **Restaurant and Menu Management**: [http://127.0.0.1:8000/ui/manage.html](http://127.0.0.1:8000/ui/manage.html) — Create and update restaurants, create menu items for a selected restaurant, and edit existing menu items.
 
 ## Data
 The seed data lives in:

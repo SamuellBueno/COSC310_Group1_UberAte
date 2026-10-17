@@ -2,44 +2,158 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Manage Restaurants</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UberAte - Manage</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 2rem auto;
+      max-width: 800px;
+      padding: 0 1rem;
+      color: #333;
+    }
+    nav {
+      margin-bottom: 2rem;
+    }
+    h1 {
+      color: #111;
+    }
+    section {
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      background: #fafafa;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+    input,
+    select,
+    textarea {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 0.55rem;
+      font: inherit;
+      border: 1px solid #cbd5e0;
+      border-radius: 4px;
+      background: #fff;
+    }
+    textarea {
+      min-height: 5rem;
+      resize: vertical;
+    }
+    .field {
+      margin-bottom: 1rem;
+    }
+    .checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .checkbox-label input {
+      width: auto;
+    }
+    button {
+      padding: 0.6rem 1rem;
+      border: 0;
+      border-radius: 4px;
+      background: #2b6cb0;
+      color: #fff;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #245a94;
+    }
+    .result {
+      color: #2e7d32;
+    }
+    .error {
+      color: #c62828;
+    }
+  </style>
 </head>
 <body>
-  <nav><a href="index.html">Restaurants</a> | <a href="manage.html">Manage</a></nav>
-  <h1>Create a restaurant</h1>
+  <nav>
+    <a href="index.html">Restaurants</a> |
+    <a href="menu.html">Menus</a> |
+    <a href="manage.html">Manage</a>
+  </nav>
 
-  <form id="create-form">
-    <p><label>Name <input id="name" required></label></p>
-    <p><label>Cuisine <input id="cuisine" required></label></p>
-    <p><label>Address <input id="address" required></label></p>
-    <p><label><input type="checkbox" id="is_open" checked> Open</label></p>
-    <button type="submit">Create</button>
-  </form>
+  <h1>Manage restaurants and menu items</h1>
 
-  <p id="result"></p>
-  <p id="error" style="color: red"></p>
-  
-  <h1>Edit a restaurant</h1>
-  <p>Fill in only what you want to change.</p>
+  <section>
+    <h2>Create a restaurant</h2>
+    <form id="create-form">
+      <div class="field"><label for="name">Name</label><input id="name" required></div>
+      <div class="field"><label for="cuisine">Cuisine</label><input id="cuisine" required></div>
+      <div class="field"><label for="address">Address</label><input id="address" required></div>
+      <div class="field"><label class="checkbox-label"><input type="checkbox" id="is_open" checked> Open</label></div>
+      <button type="submit">Create restaurant</button>
+    </form>
+    <p id="result" class="result" role="status"></p>
+    <p id="error" class="error" role="alert"></p>
+  </section>
 
-  <form id="edit-form">
-    <p><label>Restaurant id <input id="edit-id" required></label></p>
-    <p><label>Name <input id="edit-name"></label></p>
-    <p><label>Cuisine <input id="edit-cuisine"></label></p>
-    <p><label>Address <input id="edit-address"></label></p>
-    <p><label>Open
-      <select id="edit-is_open">
-        <option value="">(no change)</option>
-        <option value="true">Open</option>
-        <option value="false">Closed</option>
-      </select>
-    </label></p>
-    <button type="submit">Update</button>
-  </form>
+  <section>
+    <h2>Edit a restaurant</h2>
+    <p>Fill in only what you want to change.</p>
+    <form id="edit-form">
+      <div class="field"><label for="edit-id">Restaurant id</label><input id="edit-id" required></div>
+      <div class="field"><label for="edit-name">Name</label><input id="edit-name"></div>
+      <div class="field"><label for="edit-cuisine">Cuisine</label><input id="edit-cuisine"></div>
+      <div class="field"><label for="edit-address">Address</label><input id="edit-address"></div>
+      <div class="field"><label for="edit-is_open">Open</label>
+        <select id="edit-is_open">
+          <option value="">(no change)</option>
+          <option value="true">Open</option>
+          <option value="false">Closed</option>
+        </select>
+      </div>
+      <button type="submit">Update restaurant</button>
+    </form>
+    <p id="edit-result" class="result" role="status"></p>
+    <p id="edit-error" class="error" role="alert"></p>
+  </section>
 
-  <p id="edit-result"></p>
-  <p id="edit-error" style="color: red"></p>
+  <section>
+    <h2>Create a menu item</h2>
+    <form id="menu-create-form">
+      <div class="field"><label for="menu-restaurant">Restaurant</label><select id="menu-restaurant" required></select></div>
+      <div class="field"><label for="menu-name">Name</label><input id="menu-name" required></div>
+      <div class="field"><label for="menu-description">Description</label><textarea id="menu-description"></textarea></div>
+      <div class="field"><label for="menu-category">Category</label><input id="menu-category" required></div>
+      <div class="field"><label for="menu-price">Price</label><input id="menu-price" type="number" min="0.01" max="999.99" step="0.01" required></div>
+      <div class="field"><label class="checkbox-label"><input type="checkbox" id="menu-available" checked> Available</label></div>
+      <button type="submit">Create menu item</button>
+    </form>
+    <p id="menu-create-result" class="result" role="status"></p>
+    <p id="menu-create-error" class="error" role="alert"></p>
+  </section>
+
+  <section>
+    <h2>Edit a menu item</h2>
+    <p>Select a restaurant and menu item to load its current details.</p>
+    <form id="menu-edit-form">
+      <div class="field"><label for="menu-edit-restaurant">Restaurant</label><select id="menu-edit-restaurant" required></select></div>
+      <div class="field"><label for="menu-edit-item">Menu item</label><select id="menu-edit-item" required disabled><option value="">-- Choose a menu item --</option></select></div>
+      <div class="field"><label for="menu-edit-name">Name</label><input id="menu-edit-name" required disabled></div>
+      <div class="field"><label for="menu-edit-description">Description</label><textarea id="menu-edit-description" disabled></textarea></div>
+      <div class="field"><label for="menu-edit-category">Category</label><input id="menu-edit-category" required disabled></div>
+      <div class="field"><label for="menu-edit-price">Price</label><input id="menu-edit-price" type="number" min="0.01" max="999.99" step="0.01" required disabled></div>
+      <div class="field"><label class="checkbox-label"><input type="checkbox" id="menu-edit-available" disabled> Available</label></div>
+      <button type="submit" id="menu-edit-submit" disabled>Update menu item</button>
+    </form>
+    <p id="menu-edit-result" class="result" role="status"></p>
+    <p id="menu-edit-error" class="error" role="alert"></p>
+  </section>
+
   <script src="js/api.js"></script>
   <script src="js/manage-restaurant.js"></script>
+  <script src="js/manage-menu.js"></script>
 </body>
 </html>
