@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Details</title>
+</head>
+<body>
+    <nav>
+    <a href="index.html">Restaurants</a> |
+    <a href="menu.html">Menus</a> |
+    <a href="manage.html">Manage</a>
+    </nav>
+
+    <h1 id="name">Restaurant Details</h1>
+    <p id="info"></p>
+    <p id="error" style="color: red" role="alert"></p>
+
+    <p>
+    <a id="menu-link" href="menu.html" hidden>
+        View this restaurant’s menu
+    </a>
+    </p>
+
+    <script src="js/api.js"></script>
+    <script src="js/restaurant.js"></script>
+</body>
+</html>
