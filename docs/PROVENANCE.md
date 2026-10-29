@@ -21,4 +21,5 @@ Remember: A logged entry is not a substitute for understanding the code.
 |2026-10-16|Samuell Bueno|manage.html, manage-menu.js|Claude|Asked it to help me adapt the manage.html file to also support menu functionality|Since we aren't being graded on the frontend, I assume this will be allowed.|
 |2026-10-16|Samuell Bueno|all of thr frontend|Claude|asked it to make the frontend aesthetically better|Since we aren't being graded on the frontend, I assume this will be allowed.|
 |2026-10-28|Samuell Bueno|test_users.py|Claude|asked it to help me brainstorm tests|The purpose was to be sure that I was writing enough tests to evaluate the entire feature|
+|2026-10-29|Samuell Bueno|test_session.py|Claude|asked it to help me brainstorm tests|The purpose was to be sure that I was writing enough tests to evaluate the entire feature|
 
