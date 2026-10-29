@@ -1,4 +1,8 @@
 import bcrypt
+from datetime import datetime, timedelta, timezone
+
+#how much time sing in lasts
+SESSION_DURATION = 6
 
 
 def hash_password(password: str) -> str:
@@ -15,3 +19,19 @@ def verify_password(password: str, stored: str) -> bool:
     except ValueError:
         #if it goes wrong probably was not a password 
         return False
+
+
+def now_utc() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def session_expiry() -> str:
+    # the time a sign in made + duration as text for the json file
+    expiry_time = now_utc() + timedelta(hours=SESSION_DURATION)
+    return expiry_time.isoformat()
+
+
+def is_expired(expires_at: str) -> bool:
+    # gets the expered time established in json and compares with now
+    expiry_time = datetime.fromisoformat(expires_at)
+    return expiry_time <= now_utc() # returns true or false
