@@ -1,7 +1,5 @@
 from pydantic import ValidationError
 
-from app.core.errors import DataStoreError
-from app.core.security import now_iso
 from app.repositories import json_storage
 from app.schemas.user import RegisterRequest, User
 
@@ -14,7 +12,7 @@ def list_all() -> list[User]:
     try:
         return [User.model_validate(record) for record in records]
     except ValidationError as exc:
-        raise DataStoreError(f"Invalid record in {FILENAME}") from exc
+        raise ValueError(f"Invalid record or value in {FILENAME}") from exc
 
 
 def get_by_id(user_id: str) -> User | None:
@@ -46,7 +44,7 @@ def add_customer(payload: RegisterRequest, password_hash: str) -> User:
         name=payload.name,
         phone=payload.phone,
         delivery_address=payload.delivery_address,
-        is_active=True,
+        is_active=True
     )
     records.append(user.model_dump())
     json_storage.write_list(FILENAME, records)
