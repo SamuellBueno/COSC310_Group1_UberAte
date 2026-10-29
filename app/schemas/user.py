@@ -38,7 +38,7 @@ class RegisterRequest(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
     email: str = Field(pattern=EMAIL_PATTERN, max_length=120)
-    password: str = Field(min_length=8, max_length=72)
+    password: str = Field(min_length=5, max_length=20)
     name: str = Field(min_length=1, max_length=80)
     phone: str | None = Field(default=None, max_length=30)
     delivery_address: str | None = Field(default=None, min_length=1, max_length=160)
