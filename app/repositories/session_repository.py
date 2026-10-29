@@ -5,7 +5,7 @@ from app.schemas.session import *
 FILENAME = "sessions.json"
 
 
-def add(session_id: str, user_id: str) -> Session:
+def add(user_id: str) -> Session:
     """save a new sign in for this user"""
     records = json_storage.read_list(FILENAME)
     session = Session(
