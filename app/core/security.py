@@ -1,5 +1,6 @@
 import bcrypt
 from datetime import datetime, timedelta, timezone
+import secrets
 
 #how much time sing in lasts
 SESSION_DURATION = 6
@@ -35,3 +36,8 @@ def is_expired(expires_at: str) -> bool:
     # gets the expered time established in json and compares with now
     expiry_time = datetime.fromisoformat(expires_at)
     return expiry_time <= now_utc() # returns true or false
+
+
+def new_session_id() -> str:
+    # a long random 32 bytes str nobody can guess, made fresh at every sign in. serves as session id
+    return secrets.token_urlsafe(32)

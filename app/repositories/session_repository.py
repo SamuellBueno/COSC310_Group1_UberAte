@@ -1,6 +1,6 @@
-from app.core.security import session_expiry
+from app.core.security import *
 from app.repositories import json_storage
-from app.schemas.session import Session
+from app.schemas.session import *
 
 FILENAME = "sessions.json"
 
@@ -9,7 +9,7 @@ def add(session_id: str, user_id: str) -> Session:
     """save a new sign in for this user"""
     records = json_storage.read_list(FILENAME)
     session = Session(
-        session_id=session_id,
+        session_id=new_session_id(),
         user_id=user_id,
         #expiry time comes from security.py
         expires_at=session_expiry(),
