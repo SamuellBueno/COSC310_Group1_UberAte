@@ -18,7 +18,6 @@ class User(BaseModel):
     phone: str | None = None
     delivery_address: str | None = None
     is_active: bool = True
-    created_at: str
 
 
 class UserPublic(BaseModel):

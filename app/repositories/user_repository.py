@@ -47,7 +47,6 @@ def add_customer(payload: RegisterRequest, password_hash: str) -> User:
         phone=payload.phone,
         delivery_address=payload.delivery_address,
         is_active=True,
-        created_at=now_iso(),
     )
     records.append(user.model_dump())
     json_storage.write_list(FILENAME, records)
