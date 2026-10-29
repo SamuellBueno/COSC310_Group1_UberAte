@@ -1,0 +1,68 @@
+[
+  {
+    "id": "U1",
+    "email": "admin@uberate.test",
+    "password_hash": "$2b$12$0T9fAM5XNlCT5qdpcpQe3.wU4w9o/fG/.HuhN1tTL16JxDgbG8/Vy",
+    "role": "admin",
+    "name": "Admin Account",
+    "phone": null,
+    "delivery_address": null,
+    "is_active": true,
+    "created_at": "2026-10-29T16:00:00+00:00"
+  },
+  {
+    "id": "U2",
+    "email": "owner.sushi@uberate.test",
+    "password_hash": "$2b$12$7SfTNmCxoVMLUVoiF4k4su/TzNFm3VHTsjvbskKfaZN9HdYlYyIcG",
+    "role": "restaurant_owner",
+    "name": "Kenji Owner",
+    "phone": "250-555-0102",
+    "delivery_address": null,
+    "is_active": true,
+    "created_at": "2026-10-29T16:00:00+00:00"
+  },
+  {
+    "id": "U3",
+    "email": "owner.pizza@uberate.test",
+    "password_hash": "$2b$12$e4CPuesFTw/nwOA186zgi.nXbTJhH4OyeU/5xYcHcV9DVWJ.7x27W",
+    "role": "restaurant_owner",
+    "name": "Paula Owner",
+    "phone": "250-555-0103",
+    "delivery_address": null,
+    "is_active": true,
+    "created_at": "2026-10-29T16:00:00+00:00"
+  },
+  {
+    "id": "U4",
+    "email": "alex@uberate.test",
+    "password_hash": "$2b$12$0OuVXPXOZDC4nHVrDb5sxev6DXDJZS831AbOQB4hnJau5vtN.UK3S",
+    "role": "customer",
+    "name": "Alex Customer",
+    "phone": "250-555-0104",
+    "delivery_address": "1000 KLO Rd, Kelowna",
+    "is_active": true,
+    "created_at": "2026-10-29T16:00:00+00:00"
+  },
+  {
+    "id": "U5",
+    "email": "blake@uberate.test",
+    "password_hash": "$2b$12$WfRil6LuTG4AwlfMDx64Y.j8p.eaUVjxHnmBTFZcULmHdCfHvHQji",
+    "role": "customer",
+    "name": "Blake Customer",
+    "phone": "250-555-0105",
+    "delivery_address": "55 Bernard Ave, Kelowna",
+    "is_active": true,
+    "created_at": "2026-10-29T16:00:00+00:00"
+  },
+  {
+    "id": "U6",
+    "email": "former@uberate.test",
+    "password_hash": "$2b$12$XJbFBcW62Ql86bsyS6ky2.zUpFlyqoDF.3vtW975rY22/F39ZdMIy",
+    "role": "customer",
+    "name": "Former Customer",
+    "phone": null,
+    "delivery_address": "9 Glenmore Rd, Kelowna",
+    "is_active": false,
+    "created_at": "2026-10-29T16:00:00+00:00"
+  }
+]
