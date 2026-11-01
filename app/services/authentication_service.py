@@ -1,6 +1,6 @@
-from app.core.security import *
-from app.repositories import user_repository, session_repository
-from app.schemas.user import *
+from app.core.security import hash_password, is_expired, verify_password
+from app.repositories import session_repository, user_repository
+from app.schemas.user import LoginRequest, LoginResponse, RegisterRequest, User, UserPublic
 
 
 def to_public(user: User) -> UserPublic:
@@ -44,8 +44,12 @@ def logout(session_id: str) -> None:
 
 def get_user_for_session(session_id: str) -> User | None:
     """which account owns this session id
-    None if the id is unknown or the session has expired"""
+    None if the id is unknown or the session has expired
+    raises ValueError if the account has been deactivated"""
     session = session_repository.get(session_id)
     if session is None or is_expired(session.expires_at):
         return None
-    return user_repository.get_by_id(session.user_id)
+    user = user_repository.get_by_id(session.user_id)
+    if user is not None and not user.is_active:
+        raise ValueError("This account is deactivated")
+    return user
