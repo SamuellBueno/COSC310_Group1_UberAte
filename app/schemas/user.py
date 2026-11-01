@@ -41,3 +41,16 @@ class RegisterRequest(BaseModel):
     name: str = Field(min_length=1, max_length=80)
     phone: str | None = Field(default=None, max_length=30)
     delivery_address: str | None = Field(default=None, min_length=1, max_length=160)
+
+class LoginRequest(BaseModel):
+    """what someone sends to sign in"""
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    email: str = Field(min_length=1, max_length=120)
+    password: str = Field(min_length=1, max_length=20)
+
+class LoginResponse(BaseModel):
+    """what a successful sign in sends back
+    the browser keeps session_id and sends it on every request after this"""
+    session_id: str
+    user: UserPublic
