@@ -1,4 +1,5 @@
 import pytest
+from app.core.errors import DataStoreError
 from app.repositories.restaurant_repository import load_restaurants, get_by_id, add, update
 from app.schemas.restaurant import Restaurant, RestaurantCreate, RestaurantUpdate
 
@@ -62,3 +63,18 @@ def test_update_only_changes_fields_sent():
 def test_wrong_id_returns_none():
     assert update("random id", RestaurantUpdate(name="DonaldMacintosh")) is None
 
+def test_broken_record_raises_data_store_error(isolated_data):
+    # malformed restaurant records raise a data store error
+    (isolated_data / "restaurants.json").write_text('[{"id": "A1"}]', encoding="utf-8")
+
+    with pytest.raises(DataStoreError):
+        load_restaurants()
+
+def test_broken_record_returns_500(isolated_data, client):
+    # malformed restaurant records produce the data store response
+    (isolated_data / "restaurants.json").write_text('[{"id": "A1"}]', encoding="utf-8")
+
+    response = client.get("/restaurants")
+
+    assert response.status_code == 500
+    assert response.json() == {"detail": "Data storage error"}
