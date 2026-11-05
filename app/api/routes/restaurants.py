@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Query, status
+from fastapi import APIRouter, Query, status
 from app.services import restaurant_service, menu_service
 from app.schemas.restaurant import Restaurant, RestaurantCreate, RestaurantUpdate
 from app.schemas.menu_item import MenuItem
@@ -14,36 +14,32 @@ def list_restaurants(cuisine: str | None = Query(default = None, description = "
 @router.get("/restaurants/{restaurant_id}", response_model=Restaurant, summary = "Get restaurant details with given ID",
             responses = {404: {"description": "No restaurant exists with this ID."}})
 def get_restaurant(restaurant_id: str):
-    try:
-        return restaurant_service.get_restaurant(restaurant_id)
-    except ValueError as error:
-        raise HTTPException(status_code=404, detail=str(error))
+    return restaurant_service.get_restaurant(restaurant_id)
 
-@router.post("/restaurants", response_model=Restaurant, status_code=201, summary="Create a Restaurant")
+@router.post("/restaurants", response_model=Restaurant, status_code=201, summary="Create a Restaurant",
+             responses={409: {"description": "A restaurant with this name already exists"}})
 def create_restaurant(restaurant_data: RestaurantCreate):
-    try:
-        return restaurant_service.create_restaurant(restaurant_data)
-    except ValueError as error:
-        raise HTTPException(status_code=400, detail=str(error))
+    return restaurant_service.create_restaurant(restaurant_data)
 
-@router.patch("/restaurants/{restaurant_id}", response_model=Restaurant, summary="Update a Restaurant")
+@router.patch(
+    "/restaurants/{restaurant_id}",
+    response_model=Restaurant,
+    summary="Update a Restaurant",
+    responses={
+        400: {"description": "Nothing to update"},
+        404: {"description": "Restaurant not found"},
+        409: {"description": "A restaurant with this name already exists"},
+    },
+)
 def update_restaurant(restaurant_id: str, restaurant_data: RestaurantUpdate):
-    try:
-        restaurant = restaurant_service.update_restaurant(restaurant_id, restaurant_data)
-    except ValueError as error:
-            raise HTTPException(status_code=400, detail=str(error))
-    if restaurant is None:
-        raise HTTPException(status_code=404, detail="Restaurant not found")
-    return restaurant 
+    return restaurant_service.update_restaurant(restaurant_id, restaurant_data)
 
 @router.get(
      "/restaurants/{restaurant_id}/menu-items",
      response_model=list[MenuItem],
      status_code=status.HTTP_200_OK,
      summary="List menu items for a restaurant",
+     responses={404: {"description": "Restaurant not found"}},
 )
 def list_menu_items_for_restaurant(restaurant_id: str):
-     items = menu_service.get_menu_items_for_restaurant(restaurant_id)
-     if items is None:
-          raise HTTPException(status_code=404, detail="Restaurant not found")
-     return items
+     return menu_service.get_menu_items_for_restaurant(restaurant_id)

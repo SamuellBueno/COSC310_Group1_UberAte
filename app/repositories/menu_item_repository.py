@@ -1,14 +1,10 @@
 from pydantic import ValidationError
 
+from app.core.errors import DataStoreError
 from app.repositories import json_storage
 from app.schemas.menu_item import MenuItem, MenuItemCreate
 
 FILENAME = "menu_items.json"
-
-
-class DataStoreError(Exception):
-    """Raised when repository records on disk are corrupted or malformed."""
-    pass
 
 
 def list_all() -> list[MenuItem]:

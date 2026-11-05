@@ -1,10 +1,10 @@
 import json
 
 import pytest
-from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 from app.api.role_checks import require_customer, require_manager
+from app.core.errors import PermissionDeniedError
 from app.main import app
 from app.repositories import user_repository
 
@@ -30,7 +30,7 @@ def test_wrong_password_and_unknown_email_look_the_same(client):
 def test_deactivated_account_cannot_sign_in(client):
     # failure case: Former Customer (U6) is deactivated in the seed data
     response = client.post("/auth/login", json={"email": "former@uberate.test", "password": "Password123!"})
-    assert response.status_code == 401
+    assert response.status_code == 403
 
 
 def test_me_returns_who_is_signed_in(client):
@@ -91,7 +91,7 @@ def test_role_checks():
     assert require_customer(customer) == customer
     assert require_manager(owner) == owner
     # failure cases: an owner isn't a customer, a customer isn't a manager
-    with pytest.raises(HTTPException):
+    with pytest.raises(PermissionDeniedError):
         require_customer(owner)
-    with pytest.raises(HTTPException):
+    with pytest.raises(PermissionDeniedError):
         require_manager(customer)

@@ -120,7 +120,7 @@ def test_post_duplicate_restaurant_is_rejected(client):
 
     response = client.post("/restaurants", json={"name": "DonaldMac", "cuisine": "burger", "address": "123street", "is_open": True})
 
-    assert response.status_code == 400
+    assert response.status_code == 409
 
 def test_post_restaurant_with_id_is_rejected(client):
     response = client.post("/restaurants", json={"id": "A1", "name": "DonaldMac", "cuisine": "burger", "address": "123street", "is_open": True})
@@ -142,7 +142,7 @@ def test_patch_duplicate_name_is_rejected(client):
     restaurants = load_restaurants()
     response = client.patch(f"/restaurants/{restaurants[1].id}", json={"name": restaurants[0].name})
 
-    assert response.status_code == 400
+    assert response.status_code == 409
 
 def test_patch_restaurant_with_id_is_rejected(client):
     restaurant = load_restaurants()[1]
@@ -150,4 +150,10 @@ def test_patch_restaurant_with_id_is_rejected(client):
 
     assert response.status_code == 422
 
+def test_patch_with_nothing_to_change_returns_400(client):
+    # an empty patch is rejected as a business rule
+    restaurant = load_restaurants()[1]
+    response = client.patch(f"/restaurants/{restaurant.id}", json={})
+
+    assert response.status_code == 400
 

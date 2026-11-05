@@ -3,6 +3,7 @@ import json
 import pytest
 from pydantic import ValidationError
 from app.core.security import hash_password, verify_password
+from app.core.errors import DataStoreError
 from app.repositories import user_repository
 from app.schemas.user import RegisterRequest, UserPublic
 
@@ -84,5 +85,5 @@ def test_add_customer_saves_a_new_customer(known_users):
 def test_broken_record_raises_data_store_error(isolated_data):
     # failure case: a record missing its fields is caught, not a crash
     (isolated_data / "users.json").write_text('[{"id": "U1"}]', encoding="utf-8")
-    with pytest.raises(ValueError):
+    with pytest.raises(DataStoreError):
         user_repository.list_all()

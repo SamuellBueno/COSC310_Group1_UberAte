@@ -1,7 +1,7 @@
 import pytest
 
 from app.repositories import json_storage, menu_item_repository
-from app.repositories.menu_item_repository import DataStoreError
+from app.core.errors import DataStoreError
 from app.schemas.menu_item import MenuItem
 
 

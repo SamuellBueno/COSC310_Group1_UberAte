@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 
 from app.api.role_checks import get_current_user, get_session_id
 from app.schemas.user import LoginRequest, LoginResponse, RegisterRequest, User, UserPublic
@@ -21,10 +21,7 @@ router = APIRouter(prefix="/auth", tags=["authentication"])
 )
 def register(payload: RegisterRequest):
     # the service checks the email isn't taken and hashes the password
-    try:
-        return authentication_service.register(payload)
-    except ValueError as error:
-        raise HTTPException(status_code=409, detail=str(error))
+    return authentication_service.register(payload)
 
 @router.post("/login",
     response_model=LoginResponse,
@@ -32,15 +29,13 @@ def register(payload: RegisterRequest):
     description="Checks the email and password and returns a session_id. "
                 "Send it as 'Authorization: Bearer <session_id>' on every request after this.",
     responses={
-        401: {"description": "Wrong email or password, or the account is deactivated"},
+        401: {"description": "Wrong email or password"},
+        403: {"description": "The account is deactivated"},
     },
 )
 def login(payload: LoginRequest):
     # the service checks the password and starts the session
-    try:
-        return authentication_service.login(payload)
-    except ValueError as error:
-        raise HTTPException(status_code=401, detail=str(error))
+    return authentication_service.login(payload)
 
 
 @router.post("/logout",

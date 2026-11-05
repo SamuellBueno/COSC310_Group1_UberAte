@@ -1,6 +1,7 @@
 import json
 
 from app.core.config import get_data_dir
+from app.core.errors import DataStoreError
 
 
 def read_list(filename: str) -> list[dict]:
@@ -8,8 +9,16 @@ def read_list(filename: str) -> list[dict]:
     Example: read_list("restaurants.json") returns every restaurant.
     """
     path = get_data_dir() / filename
-    with path.open(encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with path.open(encoding="utf-8") as f:
+            records = json.load(f)
+    except FileNotFoundError as exc:
+        raise DataStoreError(f"{filename} is missing") from exc
+    except json.JSONDecodeError as exc:
+        raise DataStoreError(f"{filename} is not valid JSON") from exc
+    if not isinstance(records, list):
+        raise DataStoreError(f"{filename} should hold a list")
+    return records
 
 
 def write_list(filename: str, records: list[dict]) -> None:
