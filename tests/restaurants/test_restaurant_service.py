@@ -1,4 +1,5 @@
 import pytest
+from app.core.errors import ConflictError, NotFoundError
 from app.repositories.restaurant_repository import load_restaurants
 from app.schemas.restaurant import RestaurantCreate, RestaurantUpdate
 from app.services.restaurant_service import list_restaurants, create_restaurant, get_restaurant, update_restaurant
@@ -31,7 +32,7 @@ def test_create_restaurant_is_saved():
 def test_duplicate_create_restaurant_is_rejected():
     create_restaurant(RestaurantCreate(name="DonaldMac", cuisine="burger", address="123street", is_open=True))
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ConflictError):
         create_restaurant(RestaurantCreate(name="DonaldMac", cuisine="burger", address="123street", is_open=True))
 
 def test_cuisine_filter():
@@ -114,7 +115,7 @@ def test_get_restaurant():
     assert restaurant == test
 
 def test_get_unknown_id():
-    with pytest.raises(ValueError):
+    with pytest.raises(NotFoundError):
         get_restaurant("TEST1")
 
 def test_update_restaurant_is_saved():
@@ -127,7 +128,7 @@ def test_update_restaurant_is_saved():
 def test_update_restaurant_duplicate_name_is_rejected():
     restaurants = load_restaurants()
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ConflictError):
         update_restaurant(restaurants[1].id, RestaurantUpdate(name=restaurants[0].name))
 
 def test_update_restaurant_can_keep_its_own_name():

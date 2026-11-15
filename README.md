@@ -93,6 +93,24 @@ Tests never touch the real data file. Before each test runs, a fixture
 copies the data into a temporary folder (using pytest's `tmp_path`) and
 uses `monkeypatch` to point the app at that copy instead of the real one.
 
+## Authentication
+
+Three roles: **customer**, **restaurant_owner** and **admin**. Anyone can register, but only as a customer. Owners and the admin are demo accounts.
+
+| Method | Path | What it does |
+|---|---|---|
+| POST | `/auth/register` | Creates a customer account |
+| POST | `/auth/login` | Returns a `session_id` |
+| POST | `/auth/logout` | Ends the session |
+| GET | `/auth/me` | Returns the signed in account |
+
+Send the session id on requests that need an account: `Authorization: Bearer <session_id>`.
+In `/docs`, sign in with `/auth/login`, copy the `session_id`, and paste it into **Authorize**.
+
+**Demo accounts** (password `Password123!`): `admin@uberate.test` (admin), `owner.sushi@uberate.test` and `owner.pizza@uberate.test` (owners), `alex@uberate.test` and `blake@uberate.test` (customers), `former@uberate.test` (deactivated).
+
+**Where it's enforced:** passwords are hashed in `app/core/security.py`; who is calling and their role are checked in `app/api/role_checks.py`; which restaurant an owner may change is checked in the services.
+
 ## Repository structure
 ```
 |- app/

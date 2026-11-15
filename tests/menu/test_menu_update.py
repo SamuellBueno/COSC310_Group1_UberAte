@@ -1,6 +1,8 @@
 import json
 import pytest
+from app.core.errors import NotFoundError
 from app.repositories import menu_item_repository
+from app.services import menu_service
 
 RESTAURANTS = [
     {"id": "A1", "name": "Test Sushi", "cuisine": "Sushi", "rating": 4.0,
@@ -43,11 +45,11 @@ def test_cannot_move_dish_to_another_restaurant(client):
     assert response.status_code == 422
 
 
-def test_rename_to_name_already_on_same_menu_returns_400(client):
+def test_rename_to_name_already_on_same_menu_returns_409(client):
     # Criterion: renaming a dish to a name already on the same menu is refused
     # M1 (Dragon Roll) and M2 are both on A1
     response = client.patch("/menu-items/M2", json={"name": "dragon roll"})
-    assert response.status_code == 400
+    assert response.status_code == 409
 
 
 def test_unknown_dish_returns_404(client):
@@ -77,3 +79,8 @@ def test_delete_unknown_dish_returns_404(client):
     # M999 isn't in the test data
     response = client.delete("/menu-items/M999")
     assert response.status_code == 404
+
+def test_delete_unknown_dish_raises_not_found():
+    # deleting an unknown dish raises a domain error
+    with pytest.raises(NotFoundError):
+        menu_service.delete_menu_item("M999")

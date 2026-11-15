@@ -25,11 +25,11 @@ def test_unknown_restaurant_returns_404(client):
     assert response.status_code == 404
 
 
-def test_duplicate_name_on_same_menu_returns_400(client):
+def test_duplicate_name_on_same_menu_returns_409(client):
     # Criterion: one menu can't have two dishes with the same name
     dish = {"name": "dragon roll", "category": "Rolls", "price": 14.0}
     response = client.post("/restaurants/A1/menu-items", json=dish)
-    assert response.status_code == 400
+    assert response.status_code == 409
 
 
 def test_same_name_on_another_restaurant_is_allowed(client):

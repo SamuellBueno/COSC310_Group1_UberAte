@@ -1,3 +1,6 @@
+from pydantic import ValidationError
+
+from app.core.errors import DataStoreError
 from app.repositories import json_storage
 from app.schemas.restaurant import Restaurant, RestaurantCreate, RestaurantUpdate
 
@@ -7,7 +10,10 @@ FILENAME = "restaurants.json"
 def load_restaurants() -> list[Restaurant]:
     """Return every restaurant in the data file as a list of Restaurant objects"""
     restaurants = json_storage.read_list(FILENAME)
-    return [Restaurant.model_validate(restaurant) for restaurant in restaurants]
+    try:
+        return [Restaurant.model_validate(restaurant) for restaurant in restaurants]
+    except ValidationError as exc:
+        raise DataStoreError(f"Invalid record in {FILENAME}") from exc
 
 
 def get_by_id(restaurant_id: str) -> Restaurant | None:

@@ -1,5 +1,6 @@
 from pydantic import ValidationError
 
+from app.core.errors import DataStoreError
 from app.repositories import json_storage
 from app.schemas.user import RegisterRequest, User
 
@@ -12,7 +13,7 @@ def list_all() -> list[User]:
     try:
         return [User.model_validate(record) for record in records]
     except ValidationError as exc:
-        raise ValueError(f"Invalid record or value in {FILENAME}") from exc
+        raise DataStoreError(f"Invalid record or value in {FILENAME}") from exc
 
 
 def get_by_id(user_id: str) -> User | None:
