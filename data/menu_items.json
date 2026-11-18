@@ -6,7 +6,8 @@
     "description": "Eel and avocado roll",
     "category": "Rolls",
     "price": 14.0,
-    "available": true
+    "available": true,
+    "active" : true
   },
   {
     "id": "M2",
@@ -15,7 +16,8 @@
     "description": "Crab, avocado and cucumber",
     "category": "Rolls",
     "price": 9.5,
-    "available": true
+    "available": true,
+    "active" : true
   },
   {
     "id": "M3",
@@ -24,7 +26,8 @@
     "description": "Beef donair with sweet sauce",
     "category": "Donairs",
     "price": 12.5,
-    "available": true
+    "available": true,
+    "active" : true
   },
   {
     "id": "M4",
@@ -33,7 +36,8 @@
     "description": "Fries, cheese curds and donair meat",
     "category": "Sides",
     "price": 11.0,
-    "available": false
+    "available": false,
+    "active" : true
   },
   {
     "id": "M5",
@@ -42,7 +46,8 @@
     "description": "Two patties with cheddar",
     "category": "Burgers",
     "price": 16.0,
-    "available": true
+    "available": true,
+    "active" : true
   },
   {
     "id": "M6",
@@ -51,7 +56,8 @@
     "description": "",
     "category": "Sides",
     "price": 6.0,
-    "available": true
+    "available": true,
+    "active" : true
   },
   {
     "id": "M7",
@@ -60,7 +66,8 @@
     "description": "Tomato, mozzarella and basil",
     "category": "Pizza",
     "price": 15.0,
-    "available": true
+    "available": true,
+    "active" : true
   },
   {
     "id": "M8",
@@ -69,7 +76,8 @@
     "description": "",
     "category": "Sides",
     "price": 5.5,
-    "available": true
+    "available": true,
+    "active" : true
   },
   {
     "id": "M9",
@@ -78,7 +86,8 @@
     "description": "Three tacos with salsa",
     "category": "Tacos",
     "price": 10.0,
-    "available": true
+    "available": true,
+    "active" : true
   },
   {
     "id": "M10",
@@ -87,6 +96,7 @@
     "description": "With chocolate sauce",
     "category": "Desserts",
     "price": 6.5,
-    "available": false
+    "available": false,
+    "active" : true
   }
 ]
