@@ -5,12 +5,20 @@ from app.schemas.menu_item import MenuItem, MenuItemCreate, MenuItemUpdate
 
 def get_menu_items_for_restaurant(restaurant_id: str) -> list[MenuItem]:
     # Check if the restaurant exists first
-    if restaurant_repository.get_by_id(restaurant_id) is None:
+    restaurant = restaurant_repository.get_by_id(restaurant_id)
+    if restaurant is None:
         raise NotFoundError("Restaurant not found")
+    
+    # Returns the list of active items (or an empty list if the restaurant has none)
+    items = menu_item_repository.list_by_restaurant(restaurant_id)
+    active_items = [item for item in items if item.active]
+    return sorted(active_items, key=lambda item: (item.category.lower(), item.name.lower()))
 
-    # Returns the list of items (or an empty list if the restaurant has none)
-    return menu_item_repository.list_by_restaurant(restaurant_id)
-
+def get_menu_item(item_id: str) -> MenuItem:
+    item = menu_item_repository.get_by_id(item_id)
+    if item is None:
+        raise NotFoundError(f"Menu item not found")
+    return item
 
 def add_menu_item(restaurant_id: str, payload: MenuItemCreate) -> MenuItem:
     #Add a dish to a restaurant's menu
@@ -40,6 +48,18 @@ def update_menu_item(item_id: str, payload: MenuItemUpdate) -> MenuItem:
 
     return menu_item_repository.update(item_id, changes)
 
+""""
 def delete_menu_item(item_id: str) -> None:
     if not menu_item_repository.delete(item_id):
         raise NotFoundError("Menu item not found")
+"""
+
+def deactivate_menu_item(item_id: str) -> MenuItem:
+    item = menu_item_repository.get_by_id(item_id)
+    if item is None:
+        raise NotFoundError(f"Menu item {item_id} not found")
+    updated = menu_item_repository.update(item_id, {"active": False, "available": False})
+    if updated is None:
+        raise NotFoundError(f"Menu item {item_id} not found")
+    return updated
+

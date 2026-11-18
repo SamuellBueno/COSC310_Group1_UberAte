@@ -5,26 +5,42 @@ from app.services import menu_service
 
 router = APIRouter(tags=["menu"])
 
+
+@router.get(
+    "/menu-items/{item_id}",
+    response_model=MenuItem,
+    summary="Get a menu item",
+    description="Returns a single menu item by ID, even if it was deactivated.",
+    responses={
+        200: {"description": "Item found"},
+        404: {"description": "Item not found"},
+    },
+)
+def get_menu_item(item_id: str):
+    return menu_service.get_menu_item(item_id)
+
+
 @router.post(
     "/restaurants/{restaurant_id}/menu-items",
     response_model=MenuItem,
     status_code=201,
     summary="Add a menu item",
-    description="Adds a menu it to a restaurant's menu and the id comes from the server",
+    description="Adds a menu item to a restaurant's menu and the id comes from the server",
     responses={
-    404: {"description": "Restaurant not found"},
-    409: {"description": "This menu already has a dish with that name"},
-    201: {"description": "Everything went well. Item created"}
+        404: {"description": "Restaurant not found"},
+        409: {"description": "This menu already has a dish with that name"},
+        201: {"description": "Everything went well. Item created"},
     },
 )
 def add_menu_item(restaurant_id: str, payload: MenuItemCreate):
     return menu_service.add_menu_item(restaurant_id, payload)
 
+
 @router.patch(
     "/menu-items/{item_id}",
     response_model=MenuItem,
     summary="Update a menu item",
-    description="Changes only the fields that are sent the empty ones are not accounted for "
+    description="Changes only the fields that are sent; empty ones are not accounted for. "
                 "A dish can't be moved to another restaurant.",
     responses={
         200: {"description": "Item updated"},
@@ -36,11 +52,17 @@ def add_menu_item(restaurant_id: str, payload: MenuItemCreate):
 def update_menu_item(item_id: str, payload: MenuItemUpdate):
     return menu_service.update_menu_item(item_id, payload)
 
-@router.delete(
-    "/menu-items/{item_id}",
-    status_code=204,
-    summary="Delete a menu item",
-    responses={404: {"description": "Item not found"}},
+
+@router.post(
+    "/menu-items/{item_id}/deactivate",
+    response_model=MenuItem,
+    status_code=200,
+    summary="Deactivate a menu item",
+    description="Marks a menu item inactive and unavailable instead of deleting it from storage.",
+    responses={
+        200: {"description": "Item deactivated"},
+        404: {"description": "Item not found"},
+    },
 )
-def delete_menu_item(item_id: str):
-    menu_service.delete_menu_item(item_id)
+def deactivate_menu_item(item_id: str):
+    return menu_service.deactivate_menu_item(item_id)

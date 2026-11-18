@@ -63,9 +63,9 @@ def update(item_id: str, changes: dict) -> MenuItem | None:
             return updated_item
     return None
 
-
+"""REMOVED DELETE FUNCTION
 def delete(item_id: str) -> bool:
-    """Remove the menu item with this id returns True if it was deleted and False if it didn't exist."""
+    Remove the menu item with this id returns True if it was deleted and False if it didn't exist.
     records = json_storage.read_list(FILENAME)
     for index, record in enumerate(records):
         if record["id"] == item_id:
@@ -73,3 +73,4 @@ def delete(item_id: str) -> bool:
             json_storage.write_list(FILENAME, records)
             return True
     return False
+"""

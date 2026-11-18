@@ -10,6 +10,7 @@ class MenuItem(BaseModel):
     category: str = Field(..., min_length=1)
     price: float = Field(..., gt=0, lt=1000.0)
     available: bool = True
+    active: bool = True
 
 class MenuItemCreate(BaseModel):
     """What a client sends to add a menu item.

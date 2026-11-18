@@ -30,12 +30,18 @@ def test_get_by_id_found_and_not_found(isolated_data):
     assert missing is None
 
 
-def test_delete_existing_and_nonexistent_item(isolated_data):
-    assert menu_item_repository.delete("M1") is True
-    assert menu_item_repository.get_by_id("M1") is None
+def test_update_can_deactivate_item_without_deleting(isolated_data):
+    updated = menu_item_repository.update("M1", {"active": False, "available": False})
+    assert updated is not None
+    assert updated.active is False
+    assert updated.available is False
 
-    assert menu_item_repository.delete("M1") is False
-    assert menu_item_repository.delete("NONEXISTENT_ID") is False
+    reloaded = menu_item_repository.get_by_id("M1")
+    assert reloaded is not None
+    assert reloaded.active is False
+    assert reloaded.available is False
+
+    assert menu_item_repository.update("NONEXISTENT_ID", {"active": False}) is None
 
 
 def test_corrupted_data_raises_datastore_error(isolated_data):
