@@ -54,3 +54,10 @@ class LoginResponse(BaseModel):
     the browser keeps session_id and sends it on every request after this"""
     session_id: str
     user: UserPublic
+
+class ProfileUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    name: str | None = Field(default=None, min_length=1, max_length=80)
+    phone: str | None = Field(default=None, max_length=30)
+    delivery_address: str | None = Field(default=None, min_length=1, max_length=160)
