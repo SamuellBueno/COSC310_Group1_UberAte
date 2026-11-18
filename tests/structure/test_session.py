@@ -21,7 +21,7 @@ def test_session_ids_are_random_and_long(isolated_data):
 
 
 def test_new_session_is_not_expired(isolated_data):
-    # a sign in made right now is good for the next 8 hours
+    # a sign in made right now is good for the next 6 hours
     session = session_repository.add("U4")
     assert is_expired(session.expires_at) is False
 
