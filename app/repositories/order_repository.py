@@ -47,3 +47,12 @@ def add(order_data: OrderCreate) -> Order:
     data_json.append(order.model_dump())
     json_storage.write_list(FILENAME, data_json)
     return order
+
+def delete(order_id: str) -> bool:
+    """Remove the order with this id. Return False if there is none."""
+    data_json = json_storage.read_list(FILENAME)
+    remaining = [order for order in data_json if order["id"] != order_id]
+    if len(remaining) == len(data_json):
+        return False
+    json_storage.write_list(FILENAME, remaining)
+    return True
