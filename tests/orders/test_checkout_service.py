@@ -1,6 +1,6 @@
 import json
 import pytest
-from app.core.errors import BusinessRuleError, ConflictError, PermissionDeniedError
+from app.core.errors import BusinessRuleError, ConflictError, PermissionDeniedError, DataStoreError
 from app.repositories import cart_repository, menu_item_repository, order_repository
 from app.schemas.cart import Cart, CartLine
 from app.services import pricing
@@ -68,3 +68,14 @@ def test_deactivated_customer_is_rejected(isolated_data):
     path.write_text(json.dumps(users), encoding="utf-8")
     with pytest.raises(PermissionDeniedError):
         checkout("U4", total)
+
+def test_order_is_removed_if_clearing_cart_fails(monkeypatch):
+    item, total = put_item_in_cart()
+
+    def fail(cart):
+        raise DataStoreError("cart save failed")
+
+    monkeypatch.setattr(cart_repository, "save", fail)
+    with pytest.raises(DataStoreError):
+        checkout("U4", total)
+    assert order_repository.load_orders() == []

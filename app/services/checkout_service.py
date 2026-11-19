@@ -41,5 +41,10 @@ def checkout(customer_id: str, expected_total: float) -> Order:
         total=float(total),
     ))
     # clear the cart after the order is saved
-    cart_repository.save(cart.model_copy(update={"items": [], "restaurant_id": None}))
+    # if clear fails undo the order
+    try:
+        cart_repository.save(cart.model_copy(update={"items": [], "restaurant_id": None}))
+    except Exception:
+        order_repository.delete(order.id)
+        raise
     return order
