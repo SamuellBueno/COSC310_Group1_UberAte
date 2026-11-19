@@ -12,3 +12,7 @@ def get_my_profile(user: User = Depends(require_customer)):
 @router.patch("", response_model=UserPublic, summary="Update my profile")
 def update_my_profile(payload: ProfileUpdate, user: User = Depends(require_customer)):
     return customer_service.update_profile(user.id, payload)
+
+@router.delete("", response_model=UserPublic, summary="Close my account")
+def close_my_account(user: User = Depends(require_customer)):
+    return customer_service.deactivate(user.id)

@@ -22,3 +22,7 @@ def update_profile(customer_id: str, payload: ProfileUpdate) -> UserPublic:
 
     require_active_customer(customer_id)
     return to_public(user_repository.update(customer_id, changes))
+
+def deactivate(customer_id: str) -> UserPublic:
+    require_active_customer(customer_id)
+    return to_public(user_repository.update(customer_id, {"is_active": False}))
