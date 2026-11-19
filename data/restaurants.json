@@ -5,7 +5,8 @@
     "cuisine": "Sushi",
     "rating": 5.0,
     "address": "123 Water St, Kelowna",
-    "is_open": true
+    "is_open": true,
+    "owner_id": "U2"
   },
   {
     "id": "A2",
@@ -13,7 +14,8 @@
     "cuisine": "Donair",
     "rating": 4.4,
     "address": "3287 University way, Kelowna",
-    "is_open": false
+    "is_open": false,
+    "owner_id": "U2"
   },
   {
     "id": "A3",
@@ -21,7 +23,8 @@
     "cuisine": "Burger",
     "rating": 3.3,
     "address": "232 Ellis Street, Kelowna",
-    "is_open": true
+    "is_open": true,
+    "owner_id": "U2"
   },
   {
     "id": "A4",
@@ -29,7 +32,8 @@
     "cuisine": "Italian",
     "rating": 2.2,
     "address": "333 Yates rd, kelowna",
-    "is_open": true
+    "is_open": true,
+    "owner_id": "U3"
   },
   {
     "id": "A5",
@@ -37,7 +41,8 @@
     "cuisine": "Mexican",
     "rating": 1.1,
     "address": "1234 Pandosy Street, Kelowna",
-    "is_open": true
+    "is_open": true,
+    "owner_id": "U3"
   },
   {
     "id": "A6",
@@ -45,6 +50,7 @@
     "cuisine": "Fries",
     "rating": null,
     "address": "123 KLO Street",
-    "is_open": false
+    "is_open": false,
+    "owner_id": "U3"
   }
 ]

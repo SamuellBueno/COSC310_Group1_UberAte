@@ -23,7 +23,7 @@ def get_by_id(restaurant_id: str) -> Restaurant | None:
             return restaurant
     return None
 
-def add(restaurant_data: RestaurantCreate) -> Restaurant:
+def add(restaurant_data: RestaurantCreate, owner_id: str) -> Restaurant:
     # Give the new restaurant the next id and save it and and return it.
     data_json = json_storage.read_list(FILENAME)
     restaurant = Restaurant(
@@ -33,6 +33,7 @@ def add(restaurant_data: RestaurantCreate) -> Restaurant:
         rating=None,
         address=restaurant_data.address,
         is_open=restaurant_data.is_open,
+        owner_id=owner_id
     )
     data_json.append(restaurant.model_dump())
     json_storage.write_list(FILENAME, data_json)
