@@ -1,7 +1,9 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
 from app.schemas.menu_item import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.services import menu_service
+from app.api.role_checks import require_manager
+from app.schemas.user import User
 
 router = APIRouter(tags=["menu"])
 
@@ -32,8 +34,8 @@ def get_menu_item(item_id: str):
         201: {"description": "Everything went well. Item created"},
     },
 )
-def add_menu_item(restaurant_id: str, payload: MenuItemCreate):
-    return menu_service.add_menu_item(restaurant_id, payload)
+def add_menu_item(restaurant_id: str, payload: MenuItemCreate, user: User = Depends(require_manager)):
+    return menu_service.add_menu_item(restaurant_id, payload, actor=user)
 
 
 @router.patch(
@@ -49,8 +51,8 @@ def add_menu_item(restaurant_id: str, payload: MenuItemCreate):
         409: {"description": "This menu already has an item with that name"},
     },
 )
-def update_menu_item(item_id: str, payload: MenuItemUpdate):
-    return menu_service.update_menu_item(item_id, payload)
+def update_menu_item(item_id: str, payload: MenuItemUpdate, user: User = Depends(require_manager)):
+    return menu_service.update_menu_item(item_id, payload, actor=user)
 
 
 @router.post(
@@ -64,5 +66,5 @@ def update_menu_item(item_id: str, payload: MenuItemUpdate):
         404: {"description": "Item not found"},
     },
 )
-def deactivate_menu_item(item_id: str):
-    return menu_service.deactivate_menu_item(item_id)
+def deactivate_menu_item(item_id: str, user: User = Depends(require_manager)):
+    return menu_service.deactivate_menu_item(item_id, actor=user)

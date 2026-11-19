@@ -1,10 +1,9 @@
 import shutil
-from pathlib import Path
-
 import pytest
+from pathlib import Path
 from fastapi.testclient import TestClient
-
 from app.main import app
+from app.repositories import session_repository
 
 REAL_DATA = Path(__file__).resolve().parents[1] / "data"
 
@@ -21,3 +20,8 @@ def isolated_data(tmp_path, monkeypatch):
 @pytest.fixture
 def client():
     return TestClient(app)
+
+@pytest.fixture
+def owner_headers():
+    session = session_repository.add("U2")
+    return {"Authorization": f"Bearer {session.session_id}"}
