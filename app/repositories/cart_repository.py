@@ -1,8 +1,13 @@
+from uuid import uuid4
+
 from app.core.errors import DataStoreError
 from app.repositories import json_storage
 from app.schemas.cart import Cart
 
 FILENAME = "carts.json"
+
+def new_cart_id() -> str:
+    return f"C-{uuid4().hex[:8]}"
 
 def list_all() -> list[Cart]:
     raw_items = json_storage.read_list(FILENAME)

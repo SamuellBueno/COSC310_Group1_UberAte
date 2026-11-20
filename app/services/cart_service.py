@@ -1,8 +1,50 @@
-from uuid import uuid4
-
+from app.core.errors import BusinessRuleError, ConflictError, NotFoundError
 from app.repositories import cart_repository, menu_item_repository
-from app.schemas.cart import Cart, CartLineView, CartView
+from app.schemas.cart import Cart, CartItemAdd, CartLine, CartLineView, CartView
 from app.services import pricing
+
+
+MAX_ITEM_QUANTITY = 20
+
+
+def add_item(customer_id: str, payload: CartItemAdd) -> CartView:
+    item = menu_item_repository.get_by_id(payload.menu_item_id)
+    if item is None:
+        raise NotFoundError(f"Menu item '{payload.menu_item_id}' not found")
+    if not item.active or not getattr(item, "available", True):
+        raise BusinessRuleError(f"Menu item '{payload.menu_item_id}' is unavailable")
+
+    cart = cart_repository.get_by_customer(customer_id)
+    if cart is None:
+        cart = Cart(
+            id=cart_repository.new_cart_id(),
+            customer_id=customer_id,
+            restaurant_id=item.restaurant_id,
+            items=[],
+        )
+    elif cart.items and cart.restaurant_id != item.restaurant_id:
+        raise ConflictError("Cannot add items from a different restaurant to the active cart")
+    else:
+        cart.restaurant_id = item.restaurant_id
+
+    for line in cart.items:
+        if line.menu_item_id == item.id:
+            new_quantity = line.quantity + payload.quantity
+            if new_quantity > MAX_ITEM_QUANTITY:
+                raise BusinessRuleError(
+                    f"Item quantity cannot exceed {MAX_ITEM_QUANTITY}"
+                )
+            line.quantity = new_quantity
+            break
+    else:
+        if payload.quantity > MAX_ITEM_QUANTITY:
+            raise BusinessRuleError(
+                f"Item quantity cannot exceed {MAX_ITEM_QUANTITY}"
+            )
+        cart.items.append(CartLine(menu_item_id=item.id, quantity=payload.quantity))
+
+    cart_repository.save(cart)
+    return to_view(cart)
 
 
 def to_view(cart: Cart) -> CartView:
@@ -44,7 +86,7 @@ def get_or_create_cart(customer_id: str) -> CartView:
         return to_view(existing)
 
     new_cart = Cart(
-        id=f"C-{uuid4().hex[:8]}",
+        id=cart_repository.new_cart_id(),
         customer_id=customer_id,
         restaurant_id=None,
         items=[],
