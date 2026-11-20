@@ -8,6 +8,7 @@ class Restaurant(BaseModel):
         rating: float | None = Field(default = None, ge=0, le=5) # rating is optional as restaurant may not have rating yet
         address: str
         is_open: bool
+        owner_id: str | None = None
 
 class RestaurantCreate(BaseModel):
         model_config = ConfigDict(extra="forbid", str_strip_whitespace=True) # don't allow undefined fields and trim whitespace
