@@ -1,7 +1,7 @@
 import json
 from decimal import Decimal
 
-from app.repositories import session_repository
+from app.repositories import session_repository, user_repository, restaurant_repository
 from app.schemas.menu_item import MenuItemUpdate
 from app.services import menu_service
 from app.services.pricing import DELIVERY_FEE, line_total, money
@@ -70,8 +70,16 @@ def test_cart_totals_lifecycle_and_live_menu_prices(client, isolated_data):
     assert money(body_patched["total"]) == money(expected_sub_patched + DELIVERY_FEE)
 
     # 4. Backend uses current menu prices when a dish price updates
-    updated_price = Decimal("19.50")
-    menu_service.update_menu_item(dish_a["id"], MenuItemUpdate(price=updated_price))
+    restaurant = restaurant_repository.get_by_id(dish_a["restaurant_id"])
+    assert restaurant is not None
+
+    owner = user_repository.get_by_id(restaurant.owner_id)
+    assert owner is not None
+
+    updated_price = Decimal(str(dish_a["price"])) + Decimal("1.00")
+    menu_service.update_menu_item(
+        dish_a["id"], MenuItemUpdate(price=updated_price), actor=owner
+    )
 
     refreshed = client.get("/cart", headers=headers)
     assert refreshed.status_code == 200
