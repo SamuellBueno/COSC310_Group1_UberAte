@@ -44,6 +44,9 @@ def checkout(customer_id: str, expected_total: float) -> Order:
     if restaurant is None:
         raise BusinessRuleError("The restaurant for this cart no longer exists.")
 
+    if not restaurant.is_open:
+        raise BusinessRuleError("This restaurant is currently closed. Please choose another restaurant.")
+
     order_items, line_totals = _price_cart_items(cart)
 
     subtotal, delivery_fee, total = pricing.totals(line_totals)

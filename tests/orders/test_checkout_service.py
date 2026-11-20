@@ -69,6 +69,18 @@ def test_deactivated_customer_is_rejected(isolated_data):
     with pytest.raises(PermissionDeniedError):
         checkout("U4", total)
 
+def test_closed_restaurant_is_rejected(isolated_data):
+    item, total = put_item_in_cart()
+    path = isolated_data / "restaurants.json"
+    restaurants = json.loads(path.read_text(encoding="utf-8"))
+    for r in restaurants:
+        if r["id"] == item.restaurant_id:
+            r["is_open"] = False
+    path.write_text(json.dumps(restaurants), encoding="utf-8")
+    with pytest.raises(BusinessRuleError) as exc_info:
+        checkout("U4", total)
+    assert "closed" in str(exc_info.value).lower()
+
 def test_order_is_removed_if_clearing_cart_fails(monkeypatch):
     item, total = put_item_in_cart()
 
