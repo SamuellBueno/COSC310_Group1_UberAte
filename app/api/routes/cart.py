@@ -84,3 +84,20 @@ def remove_cart_item(
     current_user: User = Depends(require_customer),
 ) -> CartView:
     return cart_service.remove_item(current_user.id, menu_item_id)
+
+@router.delete(
+    "/cart",
+    response_model=CartView,
+    status_code=200,
+    summary="Clear all items from the active cart",
+    description="Removes all items from the customer's cart, resets the restaurant lock, and recalculates totals to $0.00.",
+    responses={
+        200: {"description": "Cleared cart returned"},
+        401: {"description": "Not signed in"},
+        403: {"description": "Not a customer or account is deactivated"},
+    },
+)
+def clear_customer_cart(
+    current_user: User = Depends(require_customer),
+) -> CartView:
+    return cart_service.clear_cart(current_user.id)

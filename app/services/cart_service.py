@@ -129,3 +129,19 @@ def remove_item(customer_id: str, menu_item_id: str) -> CartView:
 
     cart_repository.save(cart)
     return to_view(cart)
+
+def clear_cart(customer_id: str) -> CartView:
+    cart = cart_repository.get_by_customer(customer_id)
+    if cart is None:
+        cart = Cart(
+            id=cart_repository.new_cart_id(),
+            customer_id=customer_id,
+            restaurant_id=None,
+            items=[],
+        )
+    else:
+        cart.items = []
+        cart.restaurant_id = None
+
+    cart_repository.save(cart)
+    return to_view(cart)
