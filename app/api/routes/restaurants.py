@@ -1,7 +1,9 @@
-from fastapi import APIRouter, Query, status
+from fastapi import APIRouter, Query, status, Depends
 from app.services import restaurant_service, menu_service
 from app.schemas.restaurant import Restaurant, RestaurantCreate, RestaurantUpdate
 from app.schemas.menu_item import MenuItem
+from app.api.role_checks import require_manager
+from app.schemas.user import User
 
 router = APIRouter(tags=['restaurants'])
 
@@ -16,10 +18,12 @@ def list_restaurants(cuisine: str | None = Query(default = None, description = "
 def get_restaurant(restaurant_id: str):
     return restaurant_service.get_restaurant(restaurant_id)
 
-@router.post("/restaurants", response_model=Restaurant, status_code=201, summary="Create a Restaurant",
-             responses={409: {"description": "A restaurant with this name already exists"}})
-def create_restaurant(restaurant_data: RestaurantCreate):
-    return restaurant_service.create_restaurant(restaurant_data)
+@router.post(
+    "/restaurants", response_model=Restaurant, status_code=201, summary="Create a Restaurant",
+    responses={409: {"description": "A restaurant with this name already exists"}}
+)
+def create_restaurant(restaurant_data: RestaurantCreate, user: User = Depends(require_manager)):
+    return restaurant_service.create_restaurant(restaurant_data, user)
 
 @router.patch(
     "/restaurants/{restaurant_id}",
@@ -31,8 +35,8 @@ def create_restaurant(restaurant_data: RestaurantCreate):
         409: {"description": "A restaurant with this name already exists"},
     },
 )
-def update_restaurant(restaurant_id: str, restaurant_data: RestaurantUpdate):
-    return restaurant_service.update_restaurant(restaurant_id, restaurant_data)
+def update_restaurant(restaurant_id: str, restaurant_data: RestaurantUpdate, user: User = Depends(require_manager),):
+    return restaurant_service.update_restaurant(restaurant_id, restaurant_data, user)
 
 @router.get(
      "/restaurants/{restaurant_id}/menu-items",
