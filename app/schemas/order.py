@@ -19,3 +19,8 @@ class Order(OrderCreate):
         id: str = Field(min_length=1)
         status: str
         created_at: str #Saved as text
+
+class CheckoutRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    expected_total: float = Field(ge=0)
