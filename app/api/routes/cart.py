@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.api.role_checks import require_customer
-from app.schemas.cart import CartItemAdd, CartView
+from app.schemas.cart import CartItemAdd, CartItemUpdate, CartView
 from app.schemas.user import User
 from app.services import cart_service
 
@@ -44,3 +44,24 @@ def add_cart_item(
     current_user: User = Depends(require_customer),
 ) -> CartView:
     return cart_service.add_item(current_user.id, payload)
+
+@router.patch(
+    "/cart/items/{menu_item_id}",
+    response_model=CartView,
+    status_code=200,
+    summary="Update quantity of an item in the active cart",
+    description="Updates the quantity of an existing cart item to a positive whole number (1-20) and recalculates totals.",
+    responses={
+        200: {"description": "Updated cart returned"},
+        400: {"description": "Invalid quantity"},
+        401: {"description": "Not signed in"},
+        403: {"description": "Not a customer or account is deactivated"},
+        404: {"description": "Menu item is not in the cart"},
+    },
+)
+def update_cart_item_quantity(
+    menu_item_id: str,
+    payload: CartItemUpdate,
+    current_user: User = Depends(require_customer),
+) -> CartView:
+    return cart_service.update_item_quantity(current_user.id, menu_item_id, payload)
