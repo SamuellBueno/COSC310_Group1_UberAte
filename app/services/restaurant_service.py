@@ -1,6 +1,8 @@
 from app.repositories import restaurant_repository
 from app.core.errors import BusinessRuleError, ConflictError, NotFoundError
 from app.schemas.restaurant import Restaurant, RestaurantCreate, RestaurantUpdate
+from app.schemas.user import User
+from app.services.access import ensure_can_manage
 
 def list_restaurants(cuisine: str | None = None, search: str | None = None, open: bool = False) -> list[Restaurant]:
     restaurants = restaurant_repository.load_restaurants();
@@ -19,24 +21,27 @@ def get_restaurant(restaurant_id: str) -> Restaurant:
 
     if restaurant is None:
         raise NotFoundError(f"Restaurant '{restaurant_id}' does not exist.")
-
+    
     return restaurant
 
-def create_restaurant(restaurant_data: RestaurantCreate) -> Restaurant:
+def create_restaurant(restaurant_data: RestaurantCreate, actor: User) -> Restaurant:
     restaurants = restaurant_repository.load_restaurants()
 
     for r in restaurants:
         if r.name.lower() == restaurant_data.name.lower():
             raise ConflictError("A Restaurant with this name already exists")
         
-    return restaurant_repository.add(restaurant_data)
+    return restaurant_repository.add(restaurant_data, owner_id = actor.id)
 
-def update_restaurant(restaurant_id: str, restaurant_data: RestaurantUpdate) -> Restaurant:
+def update_restaurant(restaurant_id: str, restaurant_data: RestaurantUpdate, actor: User) -> Restaurant:
     if restaurant_data.name is None and restaurant_data.cuisine is None and restaurant_data.address is None and restaurant_data.is_open is None:
         raise BusinessRuleError("Send at least one field to update")
 
-    if restaurant_repository.get_by_id(restaurant_id) is None:
+    restaurant = restaurant_repository.get_by_id(restaurant_id)
+    if restaurant is None:
         raise NotFoundError("Restaurant not found")
+
+    ensure_can_manage(actor, restaurant)
 
     if restaurant_data.name is not None:
         for r in restaurant_repository.load_restaurants():

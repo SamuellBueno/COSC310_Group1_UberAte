@@ -37,12 +37,14 @@ def test_get_by_id_does_not_exist():
     assert restaurant is None
 
 def test_add_is_saved_to_json():
-    restaurant = add(RestaurantCreate(name="DonaldMac", cuisine="burger", address="123street", is_open=True))
+    restaurant = add(RestaurantCreate(name="DonaldMac", cuisine="burger", address="123street", is_open=True), owner_id="U2")
     assert get_by_id(restaurant.id) is not None
+    assert get_by_id(restaurant.id).owner_id == "U2"
 
 def test_add_gives_no_rating():
-    restaurant = add(RestaurantCreate(name="DonaldMac", cuisine="burger", address="123street", is_open=True))
+    restaurant = add(RestaurantCreate(name="DonaldMac", cuisine="burger", address="123street", is_open=True), owner_id="U2")
     assert restaurant.rating == None
+    
 
 def test_update_is_saved_to_json():
     restaurants = load_restaurants()
