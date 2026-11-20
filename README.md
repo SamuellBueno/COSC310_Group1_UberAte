@@ -47,17 +47,60 @@ uvicorn app.main:app --reload
 
 
 ## API endpoints
+
+### Health
 | Method | Path | Description |
 |---|---|---|
-| GET | `/health`     | Health check, returns `{"status": "ok"}`|
-| GET | `/restaurants`  | Returns the list of restaurants with optional name search, as well as cuisine and open status filtering|
-| GET | `/restaurants/{restaurant_id}`  | Returns a restaurant by ID|
-| POST | `/restaurants` | Creates a restaurant|
-| PATCH | `/restaurants/{restaurant_id}` | Updates a restaurant with only the fields sent|
-| GET | `/restaurants/{restaurant_id}/menu-items` | Returns all menu items for a specific restaurant |
-| POST | `/restaurants/{restaurant_id}/menu-items` | Adds a menu item to a restaurant|
-| PATCH | `/menu-items/{item_id}` | Updates a menu item with only the fields sent|
-| DELETE | `/menu-items/{item_id}` | Deletes a menu item by ID|
+| GET | `/health` | Health check, returns `{"status": "ok"}` |
+
+### Authentication
+| Method | Path | Description |
+|---|---|---|
+| POST | `/auth/register` | Register a new customer account |
+| POST | `/auth/login` | Sign in and receive a `session_id` |
+| POST | `/auth/logout` | Sign out and end the session |
+| GET | `/auth/me` | Get the currently signed-in user |
+
+### Restaurants
+| Method | Path | Description |
+|---|---|---|
+| GET | `/restaurants` | List all restaurants with optional name search, cuisine and open status filtering |
+| GET | `/restaurants/{restaurant_id}` | Get a restaurant by ID |
+| POST | `/restaurants` | Create a restaurant (restaurant owner or admin only) |
+| PATCH | `/restaurants/{restaurant_id}` | Update a restaurant (owner of that restaurant or admin only) |
+| GET | `/restaurants/{restaurant_id}/menu-items` | Get all menu items for a specific restaurant |
+
+### Menu Items
+| Method | Path | Description |
+|---|---|---|
+| GET | `/menu-items/{item_id}` | Get a single menu item by ID |
+| POST | `/restaurants/{restaurant_id}/menu-items` | Add a menu item to a restaurant (owner or admin only) |
+| PATCH | `/menu-items/{item_id}` | Update a menu item (owner of that restaurant or admin only) |
+| POST | `/menu-items/{item_id}/deactivate` | Soft-delete a menu item (owner or admin only) |
+| DELETE | `/menu-items/{item_id}` | Permanently delete a menu item (owner or admin only) |
+
+### Shopping Cart
+| Method | Path | Description |
+|---|---|---|
+| GET | `/cart` | View the current customer's shopping cart (customers only) |
+| POST | `/cart/items` | Add an item to the cart (customers only) |
+| PATCH | `/cart/items/{item_id}` | Update the quantity of an item in the cart (customers only) |
+| DELETE | `/cart/items/{item_id}` | Remove an item from the cart (customers only) |
+| DELETE | `/cart` | Clear the entire cart (customers only) |
+
+### Checkout & Orders
+| Method | Path | Description |
+|---|---|---|
+| POST | `/checkout` | Place an order from the current cart (customers only) |
+| GET | `/orders` | List all orders placed by the current customer (customers only) |
+| GET | `/orders/{order_id}` | Get the details of a specific order (customers only) |
+
+### Customer Profile
+| Method | Path | Description |
+|---|---|---|
+| GET | `/customers/me` | View the current customer's profile (customers only) |
+| PATCH | `/customers/me` | Update the current customer's profile: name, phone, delivery address (customers only) |
+| DELETE | `/customers/me` | Close/deactivate the current customer's account (customers only) |
 
 ## API documentation
 Once the app is running, open **`/docs`** in your browser
@@ -65,16 +108,30 @@ Once the app is running, open **`/docs`** in your browser
 
 ## Frontend
 The application serves a cohesive, responsive frontend under the `/ui` path prefix:
-- **Restaurants**: [http://127.0.0.1:8000/ui/index.html](http://127.0.0.1:8000/ui/index.html) — Search and filter restaurants, then view restaurant details.
+
+### Authentication & Account
+- **Sign In**: [http://127.0.0.1:8000/ui/signin.html](http://127.0.0.1:8000/ui/signin.html) — Register as a customer or sign in with existing credentials.
+- **My Account**: [http://127.0.0.1:8000/ui/account.html](http://127.0.0.1:8000/ui/account.html) — View and update your profile (name, phone, delivery address) or close your account.
+
+### Shopping & Ordering
+- **Restaurants**: [http://127.0.0.1:8000/ui/index.html](http://127.0.0.1:8000/ui/index.html) — Search and filter restaurants by name, cuisine, and open status.
 - **Restaurant Details**: [http://127.0.0.1:8000/ui/restaurant.html](http://127.0.0.1:8000/ui/restaurant.html) — View a restaurant's information and open its menu.
 - **Menus**: [http://127.0.0.1:8000/ui/menu.html](http://127.0.0.1:8000/ui/menu.html) — Select a restaurant to browse categorized dishes, prices, descriptions, and availability.
-- **Management**: [http://127.0.0.1:8000/ui/manage.html](http://127.0.0.1:8000/ui/manage.html) — Create and update restaurants and menu items.
+- **Shopping Cart**: [http://127.0.0.1:8000/ui/cart.html](http://127.0.0.1:8000/ui/cart.html) — Review and manage items in your cart, update quantities, and proceed to checkout.
+- **Checkout**: [http://127.0.0.1:8000/ui/checkout.html](http://127.0.0.1:8000/ui/checkout.html) — Review order totals and place your order.
+- **My Orders**: [http://127.0.0.1:8000/ui/orders.html](http://127.0.0.1:8000/ui/orders.html) — View your order history and details of past orders.
+
+### Restaurant Management
+- **Management**: [http://127.0.0.1:8000/ui/manage.html](http://127.0.0.1:8000/ui/manage.html) — Create and update restaurants and menu items (restaurant owners and admin only).
 
 ## Data
-The seed data lives in:
-- `data/restaurants.json`
-- `data/menu_items.json`
-
+The seed data lives in `data/`:
+- `data/users.json` — Customer, restaurant owner, and admin accounts
+- `data/restaurants.json` — Restaurants with names, cuisines, addresses, ratings, and open status
+- `data/menu_items.json` — Menu items for each restaurant with names, descriptions, prices, and availability
+- `data/sessions.json` — Active user sessions
+- `data/carts.json` — Customer shopping carts
+- `data/orders.json` — Placed orders with items, totals, and delivery addresses
 
 You can point the app at a different data folder by setting the
 `COSC310_DATA_DIR` environment variable. If you don't set it, the app
@@ -115,43 +172,85 @@ In `/docs`, sign in with `/auth/login`, copy the `session_id`, and paste it into
 ```
 |- app/
 |   |- api/
+|   |   |- role_checks.py
 |   |   |- routes/
+|   |   |   |- authentication.py
+|   |   |   |- cart.py
+|   |   |   |- checkout.py
+|   |   |   |- customers.py
 |   |   |   |- health.py
 |   |   |   |- menu_items.py
+|   |   |   |- orders.py
 |   |   |   |- restaurants.py
 |   |- core/
 |   |   |- config.py
+|   |   |- errors.py
+|   |   |- security.py
 |   |- repositories/
+|   |   |- cart_repository.py
 |   |   |- json_storage.py
 |   |   |- menu_item_repository.py
+|   |   |- order_repository.py
 |   |   |- restaurant_repository.py
+|   |   |- session_repository.py
+|   |   |- user_repository.py
 |   |- schemas/
+|   |   |- cart.py
 |   |   |- menu_item.py
+|   |   |- order.py
 |   |   |- restaurant.py
+|   |   |- user.py
 |   |- services/
+|   |   |- authentication_service.py
+|   |   |- cart_service.py
+|   |   |- checkout_service.py
+|   |   |- customer_service.py
 |   |   |- menu_service.py
+|   |   |- order_service.py
+|   |   |- pricing.py
 |   |   |- restaurant_service.py
 |   |- main.py
 |- data/
+|   |- carts.json
 |   |- menu_items.json
+|   |- orders.json
 |   |- restaurants.json
+|   |- sessions.json
+|   |- users.json
 |- docs/
 |   |- PROVENANCE.md
 |- frontend/
 |   |- js/
+|   |   |- account-nav.js
+|   |   |- account.js
 |   |   |- api.js
+|   |   |- cart.js
+|   |   |- checkout.js
+|   |   |- format.js
+|   |   |- manage-menu.js
 |   |   |- manage-restaurant.js
 |   |   |- menu.js
+|   |   |- orders.js
 |   |   |- restaurant.js
 |   |   |- restaurants.js
-|   |- inde.html
+|   |   |- signin.js
+|   |- account.html
+|   |- cart.html
+|   |- checkout.html
+|   |- index.html
 |   |- manage.html
 |   |- menu.html
+|   |- orders.html
 |   |- restaurant.html
+|   |- signin.html
+|   |- styles.css
 |- scrum/
 |   |- SPRINT-Planning.md
 |   |- team-agreement.md
 |- tests/
+|   |- cart/
+|   |   |- test_add_cart_item.py
+|   |   |- test_cart_repository.py
 |   |- frontend/
 |   |   |- test_frontend.py
 |   |- menu/
@@ -160,6 +259,13 @@ In `/docs`, sign in with `/auth/login`, copy the `session_id`, and paste it into
 |   |   |- test_menu_item_repository.py
 |   |   |- test_menu_item_schema.py
 |   |   |- test_menu_update.py
+|   |- orders/
+|   |   |- test_checkout_integration.py
+|   |   |- test_checkout_route.py
+|   |   |- test_checkout_service.py
+|   |   |- test_order_repository.py
+|   |   |- test_order_routes.py
+|   |   |- test_order_schema.py
 |   |- restaurants/
 |   |   |- test_restaurant_repository.py
 |   |   |- test_restaurant_routes.py
@@ -175,3 +281,5 @@ In `/docs`, sign in with `/auth/login`, copy the `session_id`, and paste it into
 |- pytest.ini
 |- README.md
 |- requirements.txt
+```
+
