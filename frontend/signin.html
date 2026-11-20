@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UberAte - Sign in</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Restaurants</a>
+    <a href="menu.html">Menus</a>
+    <a href="manage.html">Manage</a>
+  </nav>
+
+  <header><h1>Sign in or register</h1></header>
+
+  <section>
+    <h2>Sign in</h2>
+    <form id="signin-form">
+      <label for="signin-email">Email</label>
+      <input id="signin-email" name="email" type="email" autocomplete="username" maxlength="120" required>
+
+      <label for="signin-password">Password</label>
+      <input id="signin-password" name="password" type="password" autocomplete="current-password" maxlength="20" required>
+
+      <button type="submit">Sign in</button>
+    </form>
+    <p id="signin-error" class="error" role="alert"></p>
+  </section>
+
+  <section>
+    <h2>Create a customer account</h2>
+    <form id="register-form">
+      <label for="register-name">Name</label>
+      <input id="register-name" name="name" autocomplete="name" maxlength="80" required>
+
+      <label for="register-email">Email</label>
+      <input id="register-email" name="email" type="email" autocomplete="email" maxlength="120" required>
+
+      <label for="register-password">Password (5–20 characters)</label>
+      <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="5" maxlength="20" required>
+
+      <label for="register-phone">Phone (optional)</label>
+      <input id="register-phone" name="phone" type="tel" autocomplete="tel" maxlength="30">
+
+      <label for="register-address">Delivery address (optional)</label>
+      <input id="register-address" name="delivery_address" autocomplete="street-address" maxlength="160">
+
+      <button type="submit">Register</button>
+    </form>
+    <p id="register-error" class="error" role="alert"></p>
+    <p id="register-status" class="result" role="status"></p>
+  </section>
+
+  <script src="js/api.js"></script>
+  <script src="js/account-nav.js"></script>
+  <script src="js/signin.js"></script>
+</body>
+</html>

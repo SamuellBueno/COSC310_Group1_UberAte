@@ -398,3 +398,7 @@ button:disabled {
     gap: 0.2rem;
   }
 }
+
+[hidden] {
+  display: none !important;
+}
