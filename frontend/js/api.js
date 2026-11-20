@@ -1,41 +1,68 @@
-async function apiPost(path, body) {
-  const response = await fetch(path, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+const SESSION_KEY = "session_id";
+
+function setSession(sessionId) {
+  if (sessionId) {
+    sessionStorage.setItem(SESSION_KEY, sessionId);
+  } else {
+    sessionStorage.removeItem(SESSION_KEY);
+  }
+
+  document.dispatchEvent(new Event("sessionchange"));
+}
+
+async function apiRequest(path, method = "GET", body) {
+  const url = new URL(path, location.origin);
+  if (url.origin !== location.origin) {
+    throw new Error("API requests must use the same origin.");
+  }
+
+  const sessionId = sessionStorage.getItem(SESSION_KEY);
+  const headers = {};
+
+  if (sessionId) headers.Authorization = `Bearer ${sessionId}`;
+  if (body !== undefined) headers["Content-Type"] = "application/json";
+
+  const response = await fetch(url, {
+    method,
+    headers,
     body: JSON.stringify(body),
   });
-  const data = await response.json().catch(() => null);
-  if (!response.ok) {
-    const detail = typeof data?.detail === "string" ? data.detail : JSON.stringify(data?.detail);
-    throw new Error(`${response.status}: ${detail}`);
+
+  if (
+    response.status === 401 &&
+    sessionId &&
+    sessionStorage.getItem(SESSION_KEY) === sessionId
+  ) {
+    setSession(null);
   }
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    const detail = data?.detail;
+    const message = Array.isArray(detail)
+      ? detail.map(({ loc, msg }) => `${loc.slice(1).join(".")}: ${msg}`).join(" ")
+      : detail || response.statusText;
+    const error = new Error(`${response.status}: ${message}`);
+    error.status = response.status;
+    throw error;
+  }
+
   return data;
 }
 
-async function apiPatch(path, body) {
-  const response = await fetch(path, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const data = await response.json().catch(() => null);
-  if (!response.ok) {
-    const detail = typeof data?.detail === "string" ? data.detail : JSON.stringify(data?.detail);
-    throw new Error(`${response.status}: ${detail}`);
-  }
-  return data;
+function apiGet(path) {
+  return apiRequest(path);
 }
 
-async function apiGet(path) {
-  const response = await fetch(path);
-  const data = await response.json().catch(() => null);
+function apiPost(path, body) {
+  return apiRequest(path, "POST", body);
+}
 
-  if (!response.ok) {
-    const detail = typeof data?.detail === "string"
-      ? data.detail
-      : JSON.stringify(data?.detail);
-    throw new Error(`${response.status}: ${detail}`);
-  }
+function apiPatch(path, body) {
+  return apiRequest(path, "PATCH", body);
+}
 
-  return data;
+function apiDelete(path) {
+  return apiRequest(path, "DELETE");
 }

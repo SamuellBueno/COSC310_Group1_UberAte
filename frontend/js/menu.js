@@ -6,11 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load all restaurants to populate the dropdown
   async function loadRestaurants() {
     try {
-      const response = await fetch("/restaurants");
-      if (!response.ok) {
-        throw new Error("Failed to load restaurants");
-      }
-      const restaurants = await response.json();
+      const restaurants = await apiGet("/restaurants");
 
       restaurants.forEach((restaurant) => {
         const option = document.createElement("option");
@@ -40,11 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const response = await fetch(`/restaurants/${restaurantId}/menu-items`);
-      if (!response.ok) {
-        throw new Error("Failed to load menu items");
-      }
-      const items = await response.json();
+      const items = await apiGet(`/restaurants/${encodeURIComponent(restaurantId)}/menu-items`);
 
       menuContainer.innerHTML = "";
 
