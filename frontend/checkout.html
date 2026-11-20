@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UberAte - Checkout</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Restaurants</a>
+    <a href="menu.html">Menus</a>
+    <a href="cart.html">Cart</a>
+    <a href="orders.html">My Orders</a>
+    <a href="manage.html">Manage</a>
+  </nav>
+
+  <header>
+    <p class="eyebrow">Almost there</p>
+    <h1>Review your order.</h1>
+    <p class="lede">Check your items and total before placing your order.</p>
+  </header>
+
+  <main>
+    <div id="status-message" class="empty-message">Loading your cart...</div>
+    <p id="error" class="error" role="alert" style="display: none;"></p>
+
+    <section id="checkout-content" style="display: none;">
+      <h2 id="restaurant-name"></h2>
+      <div id="items-list"></div>
+      <hr>
+      <div id="totals"></div>
+      <button id="place-order-btn" type="button">Place order</button>
+    </section>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/account-nav.js"></script>
+  <script src="js/format.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>
