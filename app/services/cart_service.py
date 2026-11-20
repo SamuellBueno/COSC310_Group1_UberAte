@@ -4,11 +4,14 @@ from app.schemas.cart import Cart, CartItemAdd, CartLine, CartLineView, CartView
 from app.services import pricing
 
 
+MAX_ITEM_QUANTITY = 20
+
+
 def add_item(customer_id: str, payload: CartItemAdd) -> CartView:
     item = menu_item_repository.get_by_id(payload.menu_item_id)
     if item is None:
         raise NotFoundError(f"Menu item '{payload.menu_item_id}' not found")
-    if not item.available:  # verify whether MenuItem uses .available or .active
+    if not item.active or not getattr(item, "available", True):
         raise BusinessRuleError(f"Menu item '{payload.menu_item_id}' is unavailable")
 
     cart = cart_repository.get_by_customer(customer_id)
@@ -26,9 +29,18 @@ def add_item(customer_id: str, payload: CartItemAdd) -> CartView:
 
     for line in cart.items:
         if line.menu_item_id == item.id:
-            line.quantity += payload.quantity
+            new_quantity = line.quantity + payload.quantity
+            if new_quantity > MAX_ITEM_QUANTITY:
+                raise BusinessRuleError(
+                    f"Item quantity cannot exceed {MAX_ITEM_QUANTITY}"
+                )
+            line.quantity = new_quantity
             break
     else:
+        if payload.quantity > MAX_ITEM_QUANTITY:
+            raise BusinessRuleError(
+                f"Item quantity cannot exceed {MAX_ITEM_QUANTITY}"
+            )
         cart.items.append(CartLine(menu_item_id=item.id, quantity=payload.quantity))
 
     cart_repository.save(cart)

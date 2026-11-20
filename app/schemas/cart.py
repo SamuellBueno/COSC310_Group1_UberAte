@@ -1,7 +1,7 @@
 from decimal import Decimal
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, Field, PlainSerializer
+from pydantic import BaseModel, ConfigDict, Field, PlainSerializer, StrictInt
 
 Money = Annotated[Decimal, PlainSerializer(lambda v: float(v), return_type=float)]
 
@@ -46,5 +46,5 @@ class CartView(BaseModel):
 class CartItemAdd(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    menu_item_id: str = Field(min_lenght=1)
-    quantity: int = Field(gt=0)
+    menu_item_id: str = Field(min_length=1)
+    quantity: StrictInt = Field(gt=0, le=20)
