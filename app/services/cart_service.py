@@ -113,3 +113,19 @@ def update_item_quantity(
             return to_view(cart)
 
     raise NotFoundError(f"Menu item '{menu_item_id}' is not in the cart")
+
+def remove_item(customer_id: str, menu_item_id: str) -> CartView:
+    cart = cart_repository.get_by_customer(customer_id)
+    if cart is None:
+        raise NotFoundError(f"Menu item '{menu_item_id}' is not in the cart")
+
+    remaining = [line for line in cart.items if line.menu_item_id != menu_item_id]
+    if len(remaining) == len(cart.items):
+        raise NotFoundError(f"Menu item '{menu_item_id}' is not in the cart")
+
+    cart.items = remaining
+    if not cart.items:
+        cart.restaurant_id = None
+
+    cart_repository.save(cart)
+    return to_view(cart)
