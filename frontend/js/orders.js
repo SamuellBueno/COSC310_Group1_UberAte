@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.append(address);
     }
     for (const item of order.items) {
-      const lineTotal = item.line_total ?? item.unit_price * item.quantity;
+      const lineTotal = item.unit_price * item.quantity;
       card.append(makeRow(`${item.name} x${item.quantity} @ ${formatMoney(item.unit_price)}`, formatMoney(lineTotal)));
     }
     card.append(document.createElement("hr"));

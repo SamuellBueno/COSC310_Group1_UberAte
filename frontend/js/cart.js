@@ -1,6 +1,4 @@
 (() => {
-  const MAX_ITEM_QUANTITY = 20;
-
   function findStoredToken(storage) {
     if (!storage) return "";
 
@@ -176,9 +174,7 @@
         <div class="qty-controls">
           <button type="button" class="qty-dec" aria-label="Decrease quantity">−</button>
           <span class="qty-value">${item.quantity}</span>
-          <button type="button" class="qty-inc" aria-label="Increase quantity" ${
-            item.quantity >= MAX_ITEM_QUANTITY ? "disabled" : ""
-          }>+</button>
+          <button type="button" class="qty-inc" aria-label="Increase quantity">+</button>
         </div>
         <div class="line-total">${formatMoney(item.line_total)}</div>
         <button type="button" class="btn btn-ghost-danger remove-item">Remove</button>
@@ -205,7 +201,6 @@
       });
 
       row.querySelector(".qty-inc").addEventListener("click", async () => {
-        if (item.quantity >= MAX_ITEM_QUANTITY) return;
         showAlert("");
         try {
           const updated = await apiRequest(
@@ -309,6 +304,13 @@
         } catch (err) {
           showAlert(err.message);
         }
+      });
+    }
+
+    const checkoutBtn = document.getElementById("checkout-btn");
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener("click", () => {
+        window.location.href = "checkout.html";
       });
     }
 
