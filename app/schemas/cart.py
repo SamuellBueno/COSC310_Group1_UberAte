@@ -43,8 +43,15 @@ class CartView(BaseModel):
     delivery_fee: Money
     total: Money
 
+
 class CartItemAdd(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     menu_item_id: str = Field(min_length=1)
+    quantity: StrictInt = Field(gt=0, le=20)
+
+
+class CartItemUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     quantity: StrictInt = Field(gt=0, le=20)

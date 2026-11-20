@@ -1,6 +1,6 @@
 from app.core.errors import BusinessRuleError, ConflictError, NotFoundError
 from app.repositories import cart_repository, menu_item_repository
-from app.schemas.cart import Cart, CartItemAdd, CartLine, CartLineView, CartView
+from app.schemas.cart import Cart, CartItemAdd, CartItemUpdate, CartLine, CartLineView, CartView
 from app.services import pricing
 
 
@@ -93,3 +93,23 @@ def get_or_create_cart(customer_id: str) -> CartView:
     )
     cart_repository.save(new_cart)
     return to_view(new_cart)
+
+def update_item_quantity(
+    customer_id: str,
+    menu_item_id: str,
+    payload: CartItemUpdate,
+) -> CartView:
+    if payload.quantity > MAX_ITEM_QUANTITY:
+        raise BusinessRuleError(f"Item quantity cannot exceed {MAX_ITEM_QUANTITY}")
+
+    cart = cart_repository.get_by_customer(customer_id)
+    if cart is None:
+        raise NotFoundError(f"Menu item '{menu_item_id}' is not in the cart")
+
+    for line in cart.items:
+        if line.menu_item_id == menu_item_id:
+            line.quantity = payload.quantity
+            cart_repository.save(cart)
+            return to_view(cart)
+
+    raise NotFoundError(f"Menu item '{menu_item_id}' is not in the cart")
