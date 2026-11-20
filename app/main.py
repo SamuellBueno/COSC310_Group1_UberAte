@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-from app.api.routes import health, restaurants, menu_items, authentication, cart
+from app.api.routes import health, restaurants, menu_items, authentication, customers, cart, checkout
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from app.api.routes import health, restaurants, menu_items, authentication, orders
 
 from app.core.errors import *
 
@@ -10,7 +11,10 @@ app.include_router(health.router)
 app.include_router(restaurants.router)
 app.include_router(menu_items.router)
 app.include_router(authentication.router)
+app.include_router(customers.router)
 app.include_router(cart.router)
+app.include_router(orders.router)
+app.include_router(checkout.router)
 
 app.mount("/ui", StaticFiles(directory="frontend", html=True), name="ui")
 
