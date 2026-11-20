@@ -96,6 +96,38 @@ document.addEventListener("DOMContentLoaded", () => {
           status.textContent = item.available ? "Available" : "Unavailable";
           card.appendChild(status);
 
+          const addBtn = document.createElement("button");
+          addBtn.type = "button";
+          addBtn.className = "add-to-cart-btn";
+          addBtn.textContent = item.available ? "Add to Cart" : "Sold Out";
+          addBtn.disabled = !item.available;
+
+          addBtn.addEventListener("click", async () => {
+            addBtn.disabled = true;
+            const originalText = addBtn.textContent;
+            addBtn.textContent = "Adding...";
+
+            try {
+              const updatedCart = await window.UberAteCart.addToCart(item.id, 1);
+              if (updatedCart) {
+                addBtn.textContent = "Added!";
+                setTimeout(() => {
+                  addBtn.textContent = originalText;
+                  addBtn.disabled = false;
+                }, 900);
+              } else {
+                addBtn.textContent = originalText;
+                addBtn.disabled = false;
+              }
+            } catch (err) {
+              statusMessage.textContent = err.message;
+              statusMessage.style.display = "block";
+              addBtn.textContent = originalText;
+              addBtn.disabled = false;
+            }
+          });
+
+          card.appendChild(addBtn);
           section.appendChild(card);
         });
 
@@ -113,4 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   loadRestaurants();
+  if (window.UberAteCart) {
+    window.UberAteCart.loadCart();
+  }
 });
