@@ -76,26 +76,6 @@
     return `$${num.toFixed(2)}`;
   }
 
-  function ensureCartNavLink() {
-    const nav = document.querySelector("nav");
-    if (!nav) return;
-
-    // Avoid duplicates if <a href="cart.html"> is already in the HTML
-    if (nav.querySelector('a[href="cart.html"]')) return;
-
-    const cartLink = document.createElement("a");
-    cartLink.href = "cart.html";
-    cartLink.innerHTML = 'Cart (<span id="nav-cart-count">0</span>)';
-
-    // Place right before the Account link if account-nav.js already injected it
-    const accountLink = nav.querySelector('a[href="account.html"]');
-    if (accountLink) {
-      nav.insertBefore(cartLink, accountLink);
-    } else {
-      nav.appendChild(cartLink);
-    }
-  }
-
   async function apiRequest(path, options = {}) {
     const token = getSessionToken();
     const headers = {
@@ -319,8 +299,6 @@
   window.UberAteCart = { loadCart, addToCart, apiRequest };
 
   document.addEventListener("DOMContentLoaded", () => {
-    ensureCartNavLink();
-
     const clearBtn = document.getElementById("clear-cart-btn");
     if (clearBtn) {
       clearBtn.addEventListener("click", async () => {
