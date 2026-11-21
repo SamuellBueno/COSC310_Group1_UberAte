@@ -13,6 +13,9 @@ def isolated_data(tmp_path, monkeypatch):
     """Give every test its own temporary copy of the data files."""
     for file in REAL_DATA.glob("*.json"):
         shutil.copy(file, tmp_path / file.name)
+    # Reset data files so tests start with clean state
+    for name in ("orders.json", "sessions.json", "carts.json"):
+        (tmp_path / name).write_text("[]", encoding="utf-8")
     monkeypatch.setenv("COSC310_DATA_DIR", str(tmp_path))
     return tmp_path
 
