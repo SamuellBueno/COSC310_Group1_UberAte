@@ -24,13 +24,14 @@ def get_restaurant(restaurant_id: str) -> Restaurant:
     
     return restaurant
 
-def create_restaurant(restaurant_data: RestaurantCreate, actor: User) -> Restaurant:
-    restaurants = restaurant_repository.load_restaurants()
-
-    for r in restaurants:
-        if r.name.lower() == restaurant_data.name.lower():
+def _ensure_name_is_free(name: str, ignore_id: str | None = None) -> None:
+    # helper elimates duplicate code smell
+    for other in restaurant_repository.load_restaurants():
+        if other.id != ignore_id and other.name.lower() == name.lower():
             raise ConflictError("A Restaurant with this name already exists")
-        
+
+def create_restaurant(restaurant_data: RestaurantCreate, actor: User) -> Restaurant:
+    _ensure_name_is_free(restaurant_data.name)
     return restaurant_repository.add(restaurant_data, owner_id = actor.id)
 
 def update_restaurant(restaurant_id: str, restaurant_data: RestaurantUpdate, actor: User) -> Restaurant:
@@ -44,8 +45,9 @@ def update_restaurant(restaurant_id: str, restaurant_data: RestaurantUpdate, act
     ensure_can_manage(actor, restaurant)
 
     if restaurant_data.name is not None:
-        for r in restaurant_repository.load_restaurants():
-            if r.id != restaurant_id and r.name.lower() == restaurant_data.name.lower():
-                raise ConflictError("A Restaurant with this name already exists")
+        _ensure_name_is_free(restaurant_data.name, ignore_id=restaurant_id)
 
-    return restaurant_repository.update(restaurant_id, restaurant_data)
+    updated = restaurant_repository.update(restaurant_id, restaurant_data)
+    if updated is None:
+        raise NotFoundError("Restaurant not found")
+    return updated
