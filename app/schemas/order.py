@@ -12,7 +12,10 @@ class OrderCreate(BaseModel):
         customer_id: str = Field(min_length=1)
         restaurant_id: str = Field(min_length=1)
         restaurant_name: str = Field(min_length=1)
+        delivery_address: str = Field(min_length=1) # copied at checkout, a later profile change must not rewrite it
         items: list[OrderItem] = Field(min_length=1)
+        subtotal: float = Field(ge=0)
+        delivery_fee: float = Field(ge=0) # saved so the order still adds up if the fee changes later
         total: float = Field(ge=0)
 
 class Order(OrderCreate):

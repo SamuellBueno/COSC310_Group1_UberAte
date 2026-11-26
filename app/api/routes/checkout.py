@@ -8,7 +8,7 @@ router = APIRouter(tags=["checkout"])
 
 @router.post("/checkout", response_model=Order, status_code=201, summary="Place an order from my cart",
              description="Turns the signed-in customer's cart into an order. expected_total is the total the customer saw in the cart.",
-             responses={400: {"description": "Cart is empty or an item is unavailable"},
+             responses={400: {"description": "Cart is empty, an item is unavailable, or the customer has no delivery address"},
                         401: {"description": "Not signed in"},
                         403: {"description": "Not a customer or account is deactivated"},
                         409: {"description": "The total has changed since the customer reviewed the cart"}})

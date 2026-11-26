@@ -6,7 +6,7 @@ from app.schemas.order import Order, OrderCreate
 ITEMS = [{"menu_item_id": "M1", "name": "Burger", "unit_price": 10.0, "quantity": 2}]
 
 def make_order(customer_id="U1"):
-    return OrderCreate(customer_id=customer_id, restaurant_id="A1", restaurant_name="DonaldMac", items=ITEMS, total=20.0)
+    return OrderCreate(customer_id=customer_id, restaurant_id="A1", restaurant_name="DonaldMac", delivery_address="1 Test St, Kelowna", items=ITEMS, subtotal=20.0, delivery_fee=0.0, total=20.0)
 
 def test_load_orders_list():
     orders = load_orders()

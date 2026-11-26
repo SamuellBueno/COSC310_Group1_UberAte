@@ -5,7 +5,7 @@ import json
 ITEMS = [OrderItem(menu_item_id="M1", name="Burger", unit_price=10.0, quantity=2)]
 
 def make_order(customer_id):
-    return OrderCreate(customer_id=customer_id, restaurant_id="A1", restaurant_name="DonaldMac", items=ITEMS, total=20.0)
+    return OrderCreate(customer_id=customer_id, restaurant_id="A1", restaurant_name="DonaldMac", delivery_address="1 Test St, Kelowna", items=ITEMS, subtotal=20.0, delivery_fee=0.0, total=20.0)
 
 def sign_in(client):
     login = client.post("/auth/login", json={"email": "alex@uberate.test", "password": "Password123!"})

@@ -46,6 +46,10 @@ def checkout(customer_id: str, expected_total: float) -> Order:
 
     if not restaurant.is_open:
         raise BusinessRuleError("This restaurant is currently closed. Please choose another restaurant.")
+    
+    # the order keeps the address the customer has right now, a later profile change must not rewrite it
+    if not user.delivery_address:
+        raise BusinessRuleError("Add a delivery address to your profile before checking out.")
 
     order_items, line_totals = _price_cart_items(cart)
 
@@ -57,7 +61,10 @@ def checkout(customer_id: str, expected_total: float) -> Order:
         customer_id=customer_id,
         restaurant_id=restaurant.id,
         restaurant_name=restaurant.name,
+        delivery_address=user.delivery_address,
         items=order_items,
+        subtotal=float(subtotal),
+        delivery_fee=float(delivery_fee),
         total=float(total),
     ))
     _clear_cart_or_undo_order(cart, order)

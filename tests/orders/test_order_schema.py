@@ -16,7 +16,7 @@ def test_order_item_rejects_zero_quantity():
 
 #OrderCreate
 def test_valid_order_create_is_accepted():
-    order = OrderCreate(customer_id="U1", restaurant_id="A1", restaurant_name="DonaldMac", items=ITEMS, total=20.0)
+    order = OrderCreate(customer_id="U1", restaurant_id="A1", restaurant_name="DonaldMac", delivery_address="1 Test St, Kelowna", items=ITEMS, subtotal=20.0, delivery_fee=0.0, total=20.0)
     assert order.total == 20.0
 
 def test_order_create_rejects_empty_items():
