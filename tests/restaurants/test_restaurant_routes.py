@@ -47,7 +47,11 @@ def test_get_restaurant_filter_cuisine(client, owner_headers):
         "is_open": True,
     })
     assert created.status_code == 201, created.text
-    test = created.json()
+
+    response = client.get("/restaurants", params={"cuisine": "pizza"})
+    assert created.json()["id"] in [r["id"] for r in response.json()]
+    assert all(r["cuisine"].lower() == "pizza" for r in response.json())
+
 
 def test_get_restaurant_search(client, owner_headers):
     created = client.post("/restaurants", headers=owner_headers, json={
@@ -57,7 +61,9 @@ def test_get_restaurant_search(client, owner_headers):
         "is_open": True,
     })
     assert created.status_code == 201, created.text
-    test = created.json()
+
+    response = client.get("/restaurants", params={"search": "test pizza"})
+    assert [r["id"] for r in response.json()] == [created.json()["id"]]
 
 def test_get_restaurants_open(client, owner_headers):
     open_response = client.post("/restaurants", headers=owner_headers, json={
