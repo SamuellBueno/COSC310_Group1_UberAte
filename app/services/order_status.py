@@ -2,7 +2,7 @@ from app.core.errors import ConflictError
 
 ALLOWED_MOVES = {
     "placed": ["preparing", "cancelled"],
-    "preparing": ["ready", "cancelled"],
+    "preparing": ["ready"],
     "ready": ["out_for_delivery"],
     "out_for_delivery": ["delivered"],
     "delivered": [],

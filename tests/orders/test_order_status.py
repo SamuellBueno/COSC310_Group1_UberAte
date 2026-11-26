@@ -11,9 +11,8 @@ def test_normal_moves_are_allowed():
     check_move("out_for_delivery", "delivered")
 
 
-def test_placed_and_preparing_can_be_cancelled():
+def test_placed_order_can_be_cancelled():
     check_move("placed", "cancelled")
-    check_move("preparing", "cancelled")
 
 
 def test_cannot_skip_a_step():
@@ -25,6 +24,9 @@ def test_cannot_go_backwards():
     with pytest.raises(ConflictError):
         check_move("ready", "preparing")
 
+def test_preparing_order_cannot_be_cancelled():
+    with pytest.raises(ConflictError):
+        check_move("preparing", "cancelled")
 
 def test_ready_order_cannot_be_cancelled():
     with pytest.raises(ConflictError):
