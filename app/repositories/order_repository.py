@@ -41,7 +41,10 @@ def add(order_data: OrderCreate) -> Order:
         customer_id=order_data.customer_id,
         restaurant_id=order_data.restaurant_id,
         restaurant_name=order_data.restaurant_name,
+        delivery_address=order_data.delivery_address,
         items=order_data.items,
+        subtotal=order_data.subtotal,
+        delivery_fee=order_data.delivery_fee,
         total=order_data.total,
     )
     data_json.append(order.model_dump())

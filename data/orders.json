@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "customer_id": "U4",
+    "restaurant_id": "A1",
+    "restaurant_name": "Kelowna Sushi",
+    "delivery_address": "1000 KLO Rd, Kelowna",
+    "items": [
+      {
+        "menu_item_id": "M2",
+        "name": "California Roll",
+        "unit_price": 9.5,
+        "quantity": 2
+      },
+      {
+        "menu_item_id": "M1",
+        "name": "Dragon Roll",
+        "unit_price": 14.0,
+        "quantity": 2
+      }
+    ],
+    "subtotal": 47.0,
+    "delivery_fee": 3.99,
+    "total": 50.99,
+    "id": "O1",
+    "status": "placed",
+    "created_at": "2026-11-26T21:53:40.396770+00:00"
+  }
+]
